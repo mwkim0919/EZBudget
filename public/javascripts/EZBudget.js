@@ -1,6 +1,6 @@
-var app = angular.module('EZBudget', ['ngRoute']);
+var myApp = angular.module('EZBudget', ['ngRoute']);
 
-app.config(['$locationProvider', '$routeProvider', function config($locationProvider, $routeProvider) {
+myApp.config(['$locationProvider', '$routeProvider', function config($locationProvider, $routeProvider) {
   // $locationProvider.hashPrefix('!');
 
   $routeProvider
