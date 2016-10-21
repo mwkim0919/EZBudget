@@ -4,6 +4,13 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
+var hash = require('bcrypt-nodejs');
+var passport = require('passport');
+var localStrategy = require('passport-local').Strategy;
+
+// MONGOOSE
+mongoose.connect('mongodb://localhost/EZBudget');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -20,7 +27,19 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(require('express-session')({
+  secret: 'this is secret',
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// configure passport
+// passport.use(new localStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 app.use('/', routes);
 app.use('/users', users);
