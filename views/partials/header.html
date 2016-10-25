@@ -26,9 +26,11 @@
           </ul>
         </li>
       </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li><a href="#/signin">Sign In</a></li>
-        <li><a href="#/signup">Sign Up</a></li>
+      <ul ng-controller="userController" class="nav navbar-nav navbar-right">
+        <li><a ng-if="!isLoggedIn" href="#/signin">Sign In</a></li>
+        <li><a ng-if="!isLoggedIn" href="#/signup">Sign Up</a></li>
+        <li><p ng-if="isLoggedIn" class="navbar-text">Welcome {{}}</p></li>
+        <a ng-if="isLoggedIn" ng-click="logout()" class="navbar-btn btn btn-danger">Sign Out</a>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

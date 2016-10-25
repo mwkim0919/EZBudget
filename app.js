@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
 var mongoose = require('mongoose');
 var hash = require('bcrypt-nodejs');
 var passport = require('passport');
@@ -11,6 +12,9 @@ var localStrategy = require('passport-local').Strategy;
 
 // MONGOOSE
 mongoose.connect('mongodb://localhost/EZBudget');
+
+// USER SCHEMA/MODEL
+var User = require('./models/user.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -37,12 +41,12 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // configure passport
-// passport.use(new localStrategy(User.authenticate()));
-// passport.serializeUser(User.serializeUser());
-// passport.deserializeUser(User.deserializeUser());
+passport.use(new localStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.use('/', routes);
-app.use('/users', users);
+app.use('/user/', users);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
