@@ -15,23 +15,22 @@ myApp.config(function ($routeProvider) {
     access: {restricted: true}
   })
 
-  .when('/signin', {
-    templateUrl: 'templates/signin.html',
-    controller: 'userController',
-    access: {restricted: false}
-  })
-
-  .when('/signup', {
-    templateUrl: 'templates/signup.html',
-    controller: 'userController',
-    access: {restricted: false}
-  })
-
   .when('/signout', {
     controller: 'userController',
     access: {restricted: true}
   })
   
+  .when('/settings', {
+    templateUrl: 'templates/settings.html',
+    controller: 'userController',
+    access: {restricted: true}
+  })
+
+  .when('/finance', {
+    templateUrl: 'templates/finance.html',
+    controller: '',
+    access: {restricted: true}
+  })
   .otherwise({
     redirectTo: '/'
   });
@@ -44,6 +43,9 @@ myApp.run(function ($rootScope, $location, $route, AuthService) {
       .then(function(){
         if (next.access.restricted && !AuthService.isLoggedIn()){
           $location.path('/');
+          $route.reload();
+        } else if (!next.access.restricted && AuthService.isLoggedIn()) {
+          $location.path('/dashboard');
           $route.reload();
         }
       });

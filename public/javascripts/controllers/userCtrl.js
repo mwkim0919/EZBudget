@@ -34,33 +34,39 @@ angular.module('EZBudget').controller('userController',
 
     $scope.register = function () {
       // initial values
-      $scope.error = false;
+      $scope.register_error = false;
       $scope.disabled = true;
       $scope.message = false;
       // call register from service
-      AuthService.register($scope.registerForm.username, $scope.registerForm.password)
-        // handle success
-        .then(function () {
-          $location.path('/');
-          $("#login-form").delay(100).fadeIn(100);
-          $("#register-form").fadeOut(100);
-          $("#register-form").fadeOut(100);
-          $('#register-form-link').removeClass('active');
-          $('#login-form-link').addClass('active');
-          $scope.disabled = false;
-          $scope.message = true;
-          $scope.registerMessage = "Registration Success! Please sign in!"
-          $scope.registerForm = {};
-        })
-        // handle error
-        .catch(function () {
-          $scope.error = true;
-          $scope.message = false;
-          $scope.errorMessage = "Something went wrong!";
-          $scope.disabled = false;
-          $scope.registerForm = {};
-        });
-    };
+      if ($scope.registerForm.password != $scope.registerForm.password_confirm) {
+        $scope.register_error = true;
+        $scope.message = false;
+        $scope.disabled = false;
+        $scope.errorMessage = "Password does not match the confirm password."
+        return;
+      } else {
+        AuthService.register($scope.registerForm.username, $scope.registerForm.password)
+          // handle success
+          .then(function () {
+            // $location.path('/');
+            $scope.disabled = false;
+            $scope.message = true;
+            $scope.registerMessage = "Registration Success! Please sign in!"
+            $scope.registerForm = {};
+            $("#login-form").delay(100).fadeIn(100);
+            $("#register-form").fadeOut(100);
+            $('#register-form-link').removeClass('active');
+            $('#login-form-link').addClass('active');
+          })
+          // handle error
+          .catch(function () {
+            $scope.register_error = true;
+            $scope.message = false;
+            $scope.errorMessage = "Something went wrong! Please try again.";
+            $scope.disabled = false;
+            $scope.registerForm = {};
+          });
+      };
+    }
 
 }]);
-

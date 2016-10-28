@@ -12,7 +12,7 @@
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li><a href="#about">About</a></li>
-        <li><a href="#contact">Contact</a></li>
+        <li><a href="#/finance">Finance</a></li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
           <ul class="dropdown-menu">
@@ -28,21 +28,21 @@
       </ul>
 
       <ul ng-controller="userController" class="nav navbar-nav navbar-right">
-        <li><p class="navbar-text">Welcome {{ current_user }}</p></li>
+      <li><p class="navbar-text" style="margin-left: 15px;">Welcome {{ current_user }}</p></li>
         <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#/dashboard" aria-expanded="false">
-                <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="#/dashboard"><i class="glyphicon glyphicon-user"></i> User Profile</a>
-                </li>
-                <li><a href="#/dashboard"><i class="glyphicon glyphicon-cog"></i> Settings</a>
-                </li>
-                <li class="divider"></li>
-                <li><a ng-click="logout()" class="btn btn-danger">Sign Out</a>
-                </li>
-            </ul>
-            <!-- /.dropdown-user -->
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#/dashboard" aria-expanded="false">
+            <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i>
+          </a>
+          <ul class="dropdown-menu dropdown-user">
+            <li><a href="#/dashboard"><i class="glyphicon glyphicon-user"></i> User Profile</a>
+            </li>
+            <li><a href="#/settings"><i class="glyphicon glyphicon-cog"></i> Settings</a>
+            </li>
+            <li class="divider"></li>
+            <li><a ng-click="logout()" class="btn btn-danger">Sign Out</a>
+            </li>
+          </ul>
+          <!-- /.dropdown-user -->
         </li>
       </ul>
     </div><!--/.nav-collapse -->

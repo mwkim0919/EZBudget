@@ -3,13 +3,14 @@ body {
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-.auth {
-	margin-top: 50px;
+.home-header {
+	display: block;
+	text-align: center;
 }
 
-/*a {
-	color: #00B7FF;
-}*/
+.dashboard {
+	margin-top: 20px;
+}
 
 .navbar-right {
 	margin-right: 12px;
