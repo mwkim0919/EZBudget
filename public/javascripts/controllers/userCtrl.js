@@ -1,9 +1,8 @@
 angular.module('EZBudget').controller('userController',
   ['$scope', '$location', 'AuthService',
   function ($scope, $location, AuthService) {
+    $scope.current_user = AuthService.getCurrentUserName();
 
-    $scope.isLoggedIn = AuthService.getUserStatus;
-    
     $scope.login = function () {
       // initial values
       $scope.error = false;
@@ -12,10 +11,9 @@ angular.module('EZBudget').controller('userController',
       AuthService.login($scope.signinForm.email, $scope.signinForm.password)
         // handle success
         .then(function () {
-          $location.path('/');
+          $location.path('/dashboard');
           $scope.disabled = false;
           $scope.signinForm = {};
-          $scope.current_user = $scope.signinForm.email;
         })
         // handle error
         .catch(function () {
@@ -38,17 +36,26 @@ angular.module('EZBudget').controller('userController',
       // initial values
       $scope.error = false;
       $scope.disabled = true;
+      $scope.message = false;
       // call register from service
       AuthService.register($scope.registerForm.username, $scope.registerForm.password)
         // handle success
         .then(function () {
-          $location.path('/login');
+          $location.path('/');
+          $("#login-form").delay(100).fadeIn(100);
+          $("#register-form").fadeOut(100);
+          $("#register-form").fadeOut(100);
+          $('#register-form-link').removeClass('active');
+          $('#login-form-link').addClass('active');
           $scope.disabled = false;
+          $scope.message = true;
+          $scope.registerMessage = "Registration Success! Please sign in!"
           $scope.registerForm = {};
         })
         // handle error
         .catch(function () {
           $scope.error = true;
+          $scope.message = false;
           $scope.errorMessage = "Something went wrong!";
           $scope.disabled = false;
           $scope.registerForm = {};
@@ -56,3 +63,4 @@ angular.module('EZBudget').controller('userController',
     };
 
 }]);
+

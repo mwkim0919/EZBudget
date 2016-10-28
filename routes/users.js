@@ -58,7 +58,8 @@ router.get('/status', function(req, res) {
     });
   }
   res.status(200).json({
-    status: true
+    status: true,
+    current_user: req.user.username
   });
 });
 

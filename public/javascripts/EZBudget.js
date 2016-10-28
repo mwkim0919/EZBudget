@@ -4,7 +4,15 @@ myApp.config(function ($routeProvider) {
 
   $routeProvider
   .when('/', {
-    template: 'Hello World'
+    templateUrl: 'templates/home.html',
+    controller: 'userController',
+    access: {restricted: false}
+  })
+
+  .when('/dashboard', {
+    templateUrl: 'templates/dashboard.html',
+    controller: 'userController',
+    access: {restricted: true}
   })
 
   .when('/signin', {
@@ -35,7 +43,7 @@ myApp.run(function ($rootScope, $location, $route, AuthService) {
       AuthService.getUserStatus()
       .then(function(){
         if (next.access.restricted && !AuthService.isLoggedIn()){
-          $location.path('/login');
+          $location.path('/');
           $route.reload();
         }
       });

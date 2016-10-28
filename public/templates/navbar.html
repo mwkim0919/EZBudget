@@ -1,5 +1,5 @@
 <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="container">
+  <div class="">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
         <span class="sr-only">Toggle navigation</span>
@@ -26,11 +26,24 @@
           </ul>
         </li>
       </ul>
+
       <ul ng-controller="userController" class="nav navbar-nav navbar-right">
-        <li><a ng-if="!isLoggedIn" href="#/signin">Sign In</a></li>
-        <li><a ng-if="!isLoggedIn" href="#/signup">Sign Up</a></li>
-        <li><p ng-if="isLoggedIn" class="navbar-text">Welcome {{}}</p></li>
-        <a ng-if="isLoggedIn" ng-click="logout()" class="navbar-btn btn btn-danger">Sign Out</a>
+        <li><p class="navbar-text">Welcome {{ current_user }}</p></li>
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#/dashboard" aria-expanded="false">
+                <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li><a href="#/dashboard"><i class="glyphicon glyphicon-user"></i> User Profile</a>
+                </li>
+                <li><a href="#/dashboard"><i class="glyphicon glyphicon-cog"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                <li><a ng-click="logout()" class="btn btn-danger">Sign Out</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

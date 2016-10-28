@@ -4,15 +4,21 @@ angular.module('EZBudget').factory('AuthService',
 
     // create user variable
     var user = null;
+    var current_user = "";
 
     // return available functions for use in the controllers
     return ({
+      getCurrentUserName: getCurrentUserName,
     	isLoggedIn: isLoggedIn,
     	getUserStatus: getUserStatus,
     	login: login,
     	logout: logout,
     	register: register
     });
+
+    function getCurrentUserName() {
+      return current_user;
+    }
 
     function isLoggedIn() {
     	if(user) {
@@ -28,6 +34,7 @@ angular.module('EZBudget').factory('AuthService',
       .success(function (data) {
       	if(data.status){
       		user = true;
+          current_user = data.current_user
       	} else {
       		user = false;
       	}
@@ -50,6 +57,7 @@ angular.module('EZBudget').factory('AuthService',
         .success(function (data, status) {
         	if(status === 200 && data.status){
         		user = true;
+            current_user = username;
         		deferred.resolve();
         	} else {
         		user = false;
