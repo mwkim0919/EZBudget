@@ -1,68 +1,32 @@
-<div class="navbar navbar-inverse navbar-fixed-left">
-  <a class="navbar-brand" href="#/dashboard">EZBudget</a>
-  <ul class="nav navbar-nav">
-   <li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <span class="caret"></span></a>
-     <ul class="dropdown-menu" role="menu">
-      <li><a href="#">Sub Menu1</a></li>
-      <li><a href="#">Sub Menu2</a></li>
-      <li><a href="#">Sub Menu3</a></li>
-      <li class="divider"></li>
-      <li><a href="#">Sub Menu4</a></li>
-      <li><a href="#">Sub Menu5</a></li>
-    </ul>
-  </li>
-  <li><a href="#">Link2</a></li>
-  <li><a href="#">Link3</a></li>
-  <li><a href="#">Link4</a></li>
-  <li><a href="#">Link5</a></li>
-</ul>
-</div>
-<!-- <nav class="navbar navbar-default navbar-fixed-top">
-  <div class="">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="#/">EZBudget</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li><a href="#about">About</a></li>
-        <li><a href="#/finance">Finance</a></li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
-          <ul class="dropdown-menu">
-            <li><a href="#">Action</a></li>
-            <li><a href="#">Another action</a></li>
-            <li><a href="#">Something else here</a></li>
-            <li role="separator" class="divider"></li>
-            <li class="dropdown-header">Nav header</li>
-            <li><a href="#">Separated link</a></li>
-            <li><a href="#">One more separated link</a></li>
-          </ul>
-        </li>
-      </ul>
+<div class="nav-side-menu">
+  <div class="brand">EZBudget</div>
+  <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+  
+  <div class="menu-list">
 
-      <ul ng-controller="userController" class="nav navbar-nav navbar-right">
-        <li><p class="navbar-text" style="margin-left: 15px;">Welcome {{ current_user }}</p></li>
-        <li class="dropdown">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="#/dashboard" aria-expanded="false">
-            <i class="glyphicon glyphicon-user"></i> <i class="glyphicon glyphicon-chevron-down"></i>
-          </a>
-          <ul class="dropdown-menu dropdown-user">
-            <li><a href="#/dashboard"><i class="glyphicon glyphicon-user"></i> User Profile</a>
-            </li>
-            <li><a href="#/settings"><i class="glyphicon glyphicon-cog"></i> Settings</a>
-            </li>
-            <li class="divider"></li>
-            <li><a ng-click="logout()" class="btn btn-danger">Sign Out</a>
-            </li>
-          </ul>
-        </li>
+    <ul id="menu-content" class="menu-content collapse out">
+      <li>
+        <a class="dashboard-item" href="#/dashboard">
+          <i class="fa fa-dashboard fa-lg"></i> Dashboard
+        </a>
+      </li>
+      <li>
+        <a class="dashboard-item" href="#/finance">
+          <i class="fa fa-money fa-lg"></i> Finance
+        </a>
+      </li>
+      <li>
+        <a class="dashboard-item" href="#/dashboard">
+          <i class="fa fa-dashboard fa-lg"></i> Dashboard
+        </a>
+      </li>
+      <li data-toggle="collapse" data-target="#products" class="collapsed">
+        <a class="dashboard-item" href=""><i class="fa fa-user fa-lg"></i> User <span class="arrow"></span></a>
+      </li>
+      <ul ng-controller="userController" class="sub-menu collapse" id="products">
+        <li><a href="#">Profile</a></li>
+        <li class="active"><a ng-click="logout()">Sign Out</a></li>
       </ul>
-    </div>
+    </ul>
   </div>
-</nav> -->
+</div>
