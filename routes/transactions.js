@@ -1,5 +1,8 @@
 var express = require('express');
 var router = express.Router();
+var passport = require('passport');
+
+var User = require('../models/user.js');
 
 var Transaction = require('../models/transaction');
 
@@ -21,10 +24,12 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var transaction = new Transaction({
-        date: new Date(),
-        category: 'category',
-        amount: 1000,
-        user: null
+        date: req.body.date,
+        category: req.body.category,
+        description: req.body.description,
+        type: req.body.type,
+        amount: req.body.amount,
+        user: req.body.username
     });
     transaction.save(function (err, result) {
         if (err) {

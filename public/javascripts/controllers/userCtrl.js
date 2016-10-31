@@ -51,6 +51,7 @@ angular.module('EZBudget').controller('userController',
             // $location.path('/');
             $scope.disabled = false;
             $scope.message = true;
+            $scope.error = false;
             $scope.registerMessage = "Registration Success! Please sign in!"
             $scope.registerForm = {};
             $("#login-form").delay(100).fadeIn(100);
