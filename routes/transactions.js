@@ -7,7 +7,7 @@ var User = require('../models/user.js');
 var Transaction = require('../models/transaction');
 
 router.get('/', function(req, res, next) {
-    Transaction.find()
+    Transaction.find({user: req.user})
         .exec(function(err, docs) {
             if (err) {
                 return res.status(404).json({
@@ -17,6 +17,7 @@ router.get('/', function(req, res, next) {
             }
             res.status(200).json({
                 message: 'Success',
+                user: req.user,
                 obj: docs
             });
         });
@@ -29,8 +30,8 @@ router.post('/', function(req, res, next) {
         description: req.body.description,
         type: req.body.type,
         amount: req.body.amount,
-        user: req.body.username
     });
+    transaction.user = req.user;
     transaction.save(function (err, result) {
         if (err) {
             return res.status(404).json({
@@ -38,6 +39,8 @@ router.post('/', function(req, res, next) {
                 error: err
             });
         }
+        req.user.transactions.push(result);
+        req.user.save();
         res.status(201).json({
             message: 'Saved transaction',
             obj: result

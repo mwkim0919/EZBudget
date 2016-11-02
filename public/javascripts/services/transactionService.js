@@ -1,25 +1,32 @@
 angular.module('EZBudget').factory('transactionService',
-	['$q', '$timeout', '$http', 'AuthService',
+	['$q', '$timeout', '$http',
 	function ($q, $timeout, $http) {
     var transactions = [];
-    var current_user = AuthService.getCurrentUserName();
 
     return ({
       getTransactions: getTransactions,
       addTransaction: addTransaction,
-      removeTransaction: removeTransaction,
-      editTransaction: editTransaction
+      // removeTransaction: removeTransaction,
+      // editTransaction: editTransaction
     });
 
     function getTransactions() {
       return $http.get('/transactions')
       // handle success
       .success(function (data) {
-        if (data.obj) {
-          transactions = data.obj;
-        } else {
-
+        var objs = [];
+        for (var i = 0; i < data.obj.length; i++) {
+          var transaction = {
+            date: data.obj[i].date,
+            category: data.obj[i].category,
+            description: data.obj[i].description,
+            type: data.obj[i].type,
+            amount: data.obj[i].amount
+          };
+          console.log(transaction);
+          objs.push(transaction);
         }
+        return objs;
       })
       // handle error
       .error(function (data) {
@@ -27,7 +34,7 @@ angular.module('EZBudget').factory('transactionService',
       });
     }
 
-    function addTransaction() {
+    function addTransaction(date, category, description, type, amount) {
       return $http.post('/transactions',
         {
           date: date, 
@@ -35,15 +42,17 @@ angular.module('EZBudget').factory('transactionService',
           description: description,
           type: type,
           amount: amount,
-          user: current_user
         }
       )
       // handle success
       .success(function (data, status) {
         if (status === 201 && data.status) {
-
+          // DO something
         }
       })
+      .error(function (data) {
+        // DO something
+      });
     }
     
 }]);
