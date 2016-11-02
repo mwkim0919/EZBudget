@@ -6,6 +6,7 @@ var Transaction = new Schema({
 	category: {type: String, required: false},
 	amount: {type: Number, required: true},
 	description: {type: String, required: false},
+	type: {type: String, required: true},
 	user: {type: Schema.Types.ObjectId, ref: 'User'}
 });
 

@@ -8,6 +8,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="panel-body">
+			<p>Search: <input ng-model="$ctrl.query"></p>
 			<table class="table table-hover">
 				<thead>
 					<tr>
@@ -19,14 +20,14 @@
 					</tr>
 				</thead>
 				<tbody>
-					<tr ng-repeat="transaction in transactions">
-						<td>{{transaction.date}}</td>
+					<tr ng-repeat="transaction in transactions | filter: $ctrl.query | orderBy: date">
+						<td>{{transaction.date | date : format : 'mediumDate'}}</td>
 						<td>{{transaction.category}}</td>
 						<td>{{transaction.description}}</td>
 						<td>{{transaction.type}}</td>
 						<td>{{transaction.amount}}</td>
 					</tr>
-					<tr>
+					<!-- <tr>
 						<td>Mary</td>
 						<td>Moe</td>
 						<td>mary@example.com</td>
@@ -39,7 +40,7 @@
 						<td>july@example.com</td>
 						<td>qjlwehrljqwer</td>
 						<td>1052.20</td>
-					</tr>
+					</tr> -->
 				</tbody>
 			</table>
 		</div>
@@ -66,7 +67,7 @@
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
 								<span class="input-group-addon">Category</span>
-								<select ng-model="transaction.category" class="form-control">
+								<select name="category" ng-model="transaction.category" class="form-control">
 									<option value=" "></option>
 									<option value="Clothing">Clothing</option>
 									<option value="Education">Education</option>
@@ -89,9 +90,10 @@
 						<div class="col-md-4 col-sm-4">
 							<div class="input-group">
 								<span class="input-group-addon">Type</span>
-								<select ng-model="transaction.type" class="form-control">
-									<option value="Expense" selected>Expense</option>
+								<select name="type" ng-model="transaction.type" class="form-control" required>
+									<option value=""></option>
 									<option value="Earning">Earning</option>
+									<option value="Expense">Expense</option>
 								</select>
 							</div>
 						</div>

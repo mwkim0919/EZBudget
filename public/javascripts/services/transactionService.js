@@ -14,19 +14,19 @@ angular.module('EZBudget').factory('transactionService',
       return $http.get('/transactions')
       // handle success
       .success(function (data) {
-        var objs = [];
-        for (var i = 0; i < data.obj.length; i++) {
-          var transaction = {
-            date: data.obj[i].date,
-            category: data.obj[i].category,
-            description: data.obj[i].description,
-            type: data.obj[i].type,
-            amount: data.obj[i].amount
-          };
-          console.log(transaction);
-          objs.push(transaction);
-        }
-        return objs;
+        // DO SOMETHING
+        // for (var i = 0; i < data.obj.length; i++) {
+        //   var transaction = {
+        //     date: data.obj[i].date,
+        //     category: data.obj[i].category,
+        //     description: data.obj[i].description,
+        //     type: data.obj[i].type,
+        //     amount: data.obj[i].amount
+        //   };
+        //   transactions.push(transaction);
+        // }
+        // console.log(transactions);
+        // return transactions;
       })
       // handle error
       .error(function (data) {

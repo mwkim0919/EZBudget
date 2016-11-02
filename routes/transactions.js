@@ -17,7 +17,6 @@ router.get('/', function(req, res, next) {
             }
             res.status(200).json({
                 message: 'Success',
-                user: req.user,
                 obj: docs
             });
         });
