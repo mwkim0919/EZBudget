@@ -4,6 +4,7 @@ angular.module('EZBudget').controller('transactionController',
 
     $scope.transactions = [];
     $scope.balance = 0;
+    $scope.categories = ['Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
     $scope.views = [];
     $scope.labels = [];
     $scope.data = [];
