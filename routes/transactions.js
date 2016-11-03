@@ -7,7 +7,7 @@ var User = require('../models/user.js');
 var Transaction = require('../models/transaction');
 
 router.get('/', function(req, res, next) {
-    Transaction.find({user: req.user})
+    Transaction.find({user: req.user}).sort({date: -1})
         .exec(function(err, docs) {
             if (err) {
                 return res.status(404).json({

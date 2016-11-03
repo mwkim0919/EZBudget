@@ -295,6 +295,10 @@ body {
  		padding-left: 20px;
  		line-height: 50px !important;
  	}
+ 	.dashboard-body {
+		margin-left: 10px;
+		margin-right: 10px;
+	}
  }
 
  @media (min-width: 767px) {
