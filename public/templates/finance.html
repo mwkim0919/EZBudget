@@ -1,11 +1,18 @@
 <div ng-include="'/templates/navbar.html'"></div>
 <div ng-init="getTransactions()" class="dashboard-body">
-	<canvas class="balance-graph" id="lineChart" width="500" height="150"></canvas>
+	<div class="row">
+		<div class="col-md-6">
+			<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
+		</div>
+		<div class="col-md-6">
+			<canvas id="line2" class="chart chart-line" chart-data="data2" chart-labels="labels2" chart-series="series" chart-options="options2" chart-dataset-override="datasetOverride2" chart-click="onClick"></canvas>
+		</div>
+	</div>
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left">Transaction History</h3>
 			<div class="pull-right">
-				<button class="btn btn-default" id="transaction-search-button">
+				<button class="btn btn-default" type="button" data-toggle="collapse" data-target="#transaction-search" aria-expanded="false" aria-controls="collapseExample">
 					<span class="glyphicon glyphicon-search"></span>
 				</button>
 				<button class="btn btn-default" data-toggle="modal" data-target="#transaction-form">
@@ -15,7 +22,7 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="panel-body">
-			<form class="form-inline" id="transaction-search">
+			<form class="collapse form-inline" id="transaction-search">
 				<div class="form-group">
 					<label for="view-search">View:</label>
 					<select ng-model="$ctrl.date" class="form-control">
@@ -54,7 +61,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<p>Balance: {{balance}}</p>
+				<!-- <p>Balance: {{balance}}</p> -->
 			</div>
 		</div>
 	</div>

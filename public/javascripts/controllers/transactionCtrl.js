@@ -5,15 +5,56 @@ angular.module('EZBudget').controller('transactionController',
     $scope.transactions = [];
     $scope.balance = 0;
     $scope.views = [];
-    $scope.categories = ['Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
-    
-    $scope.filterTransaction = function(transaction) {
-      return transaction.description === $scope.Filter.query || 
-        transaction.amount === $scope.Filter.query ||
-        transaction.date === $scope.Filter.date ||
-        transaction.category === $scope.Filter.category;
-    }
+    $scope.labels = [];
+    $scope.data = [];
 
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
+    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
+    $scope.options = {
+      responsive: true,
+      scales: {
+        yAxes: [
+        {
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left'
+        },
+        ]
+      }
+    };
+
+    $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
+    $scope.series = ['Series A', 'Series B'];
+    $scope.data2 = [
+    [65, 59, 80, 81, 56, 55, 40],
+    [28, 48, 40, 19, 86, 27, 90]
+    ];
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
+    $scope.datasetOverride2 = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
+    $scope.options2 = {
+      scales: {
+        yAxes: [
+        {
+          id: 'y-axis-1',
+          type: 'linear',
+          display: true,
+          position: 'left'
+        },
+        {
+          id: 'y-axis-2',
+          type: 'linear',
+          display: true,
+          position: 'right'
+        }
+        ]
+      }
+    };
+    
     $scope.getTransactions = function() {
       transactionService.getTransactions()
         .then(function (response) {
@@ -35,6 +76,8 @@ angular.module('EZBudget').controller('transactionController',
               view.date = dateSet;
               view.balance = balance;
               $scope.views.push(view);
+              $scope.labels.push(view.date);
+              $scope.data.push(view.balance);
               dateSet = transaction.date.substring(0,7);
               balance = transaction.amount;
             }
@@ -45,11 +88,14 @@ angular.module('EZBudget').controller('transactionController',
           view.date = dateSet;
           view.balance = balance;
           $scope.views.push(view);
+          $scope.labels.push(view.date);
+          $scope.data.push(view.balance);
+          $scope.labels.reverse();
+          $scope.data.reverse();
         })
         .catch(function () {
           // DO something
         });
-        console.log($scope.views);
     };
 
     $scope.addTransaction = function() {

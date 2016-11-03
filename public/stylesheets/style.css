@@ -121,13 +121,14 @@ body {
 .dashboard-body {
 	margin-left: 220px;
 	margin-right: 20px;
+	margin-top: 20px;
 }
 
 .dashboard-item {
 	display: block;
 }
 
-.balance-graph {
+.chart {
 	margin-bottom: 20px;
 }
 

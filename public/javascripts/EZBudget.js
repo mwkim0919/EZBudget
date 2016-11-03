@@ -1,4 +1,4 @@
-var myApp = angular.module('EZBudget', ['ngRoute']);
+var myApp = angular.module('EZBudget', ['ngRoute', 'chart.js']);
 
 myApp.config(function ($routeProvider) {
 
