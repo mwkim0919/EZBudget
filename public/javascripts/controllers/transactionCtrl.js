@@ -6,62 +6,22 @@ angular.module('EZBudget').controller('transactionController',
     $scope.balance = 0;
     $scope.categories = ['Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
     $scope.views = [];
-    $scope.labels = [];
-    $scope.data = [];
+    $scope.barChart = [[],[],[]];
 
-    $scope.onClick = function (points, evt) {
-      console.log(points, evt);
-    };
-    $scope.datasetOverride = [{ yAxisID: 'y-axis-1' }];
-    $scope.options = {
-      responsive: true,
-      scales: {
-        yAxes: [
-        {
-          id: 'y-axis-1',
-          type: 'linear',
-          display: true,
-          position: 'left'
-        },
-        ]
-      }
-    };
+    $scope.barlabels = [];
+    $scope.barseries = ['Earning', 'Expense'];
+    $scope.bardata = [[], []];
 
-    $scope.labels2 = ["January", "February", "March", "April", "May", "June", "July"];
-    $scope.series = ['Series A', 'Series B'];
-    $scope.data2 = [
-    [65, 59, 80, 81, 56, 55, 40],
-    [28, 48, 40, 19, 86, 27, 90]
-    ];
-    $scope.onClick = function (points, evt) {
-      console.log(points, evt);
-    };
-    $scope.datasetOverride2 = [{ yAxisID: 'y-axis-1' }, { yAxisID: 'y-axis-2' }];
-    $scope.options2 = {
-      scales: {
-        yAxes: [
-        {
-          id: 'y-axis-1',
-          type: 'linear',
-          display: true,
-          position: 'left'
-        },
-        {
-          id: 'y-axis-2',
-          type: 'linear',
-          display: true,
-          position: 'right'
-        }
-        ]
-      }
-    };
-    
+    $scope.labels2 = ["Download Sales", "In-Store Sales", "Mail-Order Sales"];
+    $scope.data2 = [300, 500, 100];
+
     $scope.getTransactions = function() {
       transactionService.getTransactions()
         .then(function (response) {
           var dateSet = response.data.obj[0].date.substring(0,7);
-          var balance = 0;
           var view = null;
+          var earning = 0;
+          var expense = 0;
           for (var i = 0; i < response.data.obj.length; i++) {
             var transaction = {
               date: response.data.obj[i].date,
@@ -71,28 +31,44 @@ angular.module('EZBudget').controller('transactionController',
               amount: (response.data.obj[i].type == 'Expense') ? -response.data.obj[i].amount : response.data.obj[i].amount
             }
             if (dateSet == transaction.date.substring(0,7)) {
-              balance += transaction.amount;
+              if (response.data.obj[i].type == 'Expense') {
+                expense += response.data.obj[i].amount;
+              } else {
+                earning += response.data.obj[i].amount;
+              }
             } else {
-              view = new Object();
-              view.date = dateSet;
-              view.balance = balance;
-              $scope.views.push(view);
-              $scope.labels.push(view.date);
-              $scope.data.push(view.balance);
+              $scope.views.push(dateSet);
+              $scope.barlabels.push(dateSet);
+              $scope.bardata[0].push(earning);
+              $scope.bardata[1].push(expense);
+              $scope.barChart[0].push(dateSet);
+              $scope.barChart[1].push(earning);
+              $scope.barChart[2].push(expense);
               dateSet = transaction.date.substring(0,7);
               balance = transaction.amount;
+              if (response.data.obj[i].type == 'Expense') {
+                expense = response.data.obj[i].amount;
+                earning = 0;
+              } else {
+                earning = response.data.obj[i].amount;
+                expense = 0;
+              }
             }
             $scope.balance += transaction.amount;
             $scope.transactions.push(transaction);
           }
-          view = new Object();
-          view.date = dateSet;
-          view.balance = balance;
-          $scope.views.push(view);
-          $scope.labels.push(view.date);
-          $scope.data.push(view.balance);
-          $scope.labels.reverse();
-          $scope.data.reverse();
+          $scope.views.push(dateSet);
+          $scope.barlabels.push(dateSet);
+          $scope.bardata[0].push(earning);
+          $scope.bardata[1].push(expense);
+          $scope.barChart[0].push(dateSet);
+          $scope.barChart[1].push(earning);
+          $scope.barChart[2].push(expense);
+          earning = 0;
+          expense = 0;
+          $scope.barlabels.reverse();
+          $scope.bardata[0].reverse();
+          $scope.bardata[1].reverse();
         })
         .catch(function () {
           // DO something
@@ -114,6 +90,18 @@ angular.module('EZBudget').controller('transactionController',
           $('#transaction-form').modal('toggle');
           $scope.transaction = {};
           $location.path('/finance');
+          console.log($scope.bardata);
+          console.log(typeof($scope.transaction.date));
+          for (var i = 0; i < $scope.barlabels.length; i++) {
+            if ($scope.barlabels[i] == $scope.transaction.date.substring(0,7)) {
+              if ($scope.transaction.type == 'Earning') {
+                $scope.bardata[0][i] += $scope.transaction.amount;
+              } else {
+                $scope.bardata[1][i] += $scope.transaction.amount;
+              }
+            }
+          }
+          console.log($scope.bardata);
         })
         .catch(function () {
           // DO something

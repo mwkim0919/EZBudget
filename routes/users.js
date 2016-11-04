@@ -37,7 +37,8 @@ router.post('/signin', function(req, res, next) {
         });
       }
       res.status(200).json({
-        status: 'Login successful!'
+        status: 'Login successful!',
+        user: user
       });
     });
   })(req, res, next);

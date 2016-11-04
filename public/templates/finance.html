@@ -1,11 +1,13 @@
 <div ng-include="'/templates/navbar.html'"></div>
 <div ng-init="getTransactions()" class="dashboard-body">
 	<div class="row">
-		<div class="col-md-6">
-			<canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-series="series" chart-options="options" chart-dataset-override="datasetOverride" chart-click="onClick"></canvas>
-		</div>
-		<div class="col-md-6">
-			<canvas id="line2" class="chart chart-line" chart-data="data2" chart-labels="labels2" chart-series="series" chart-options="options2" chart-dataset-override="datasetOverride2" chart-click="onClick"></canvas>
+		<div class="container">
+			<div class="col-md-6">
+				<canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries"></canvas>
+			</div>
+			<div class="col-md-6">
+				<canvas id="pie" class="chart chart-pie" chart-data="data2" chart-labels="labels2" chart-options="options"></canvas> 
+			</div>
 		</div>
 	</div>
 	<div class="panel panel-primary">
@@ -22,26 +24,28 @@
 			<div class="clearfix"></div>
 		</div>
 		<div class="panel-body">
-			<form class="collapse form-inline" id="transaction-search">
-				<div class="form-group">
-					<label for="view-search">View:</label>
-					<select ng-model="$ctrl.date" class="form-control">
-						<option value=""></option>
-						<option ng-repeat="view in views" value="{{view.date}}">{{view.date}}</option>
-					</select>
-				</div>
-				<div class="form-group" style="margin-left: 5px;">
-					<label for="category-search">Category:</label>
-					<select ng-model="$ctrl.category" class="form-control">
-						<option value=""></option>
-						<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-					</select>
-				</div>
-				<div class="form-group" style="margin-left: 5px;">
-					<label for="search">Search:</label>
-					<input ng-model="$ctrl.query" class="form-control">
-				</div>
-			</form>
+			<div class="container collapse" id="transaction-search">
+				<form class="form-inline">
+					<div class="form-group">
+						<label for="view-search">View:</label>
+						<select ng-model="$ctrl.date" class="form-control">
+							<option value=""></option>
+							<option ng-repeat="view in views" value="{{view}}">{{view}}</option>
+						</select>
+					</div>
+					<div class="form-group" style="margin-left: 5px;">
+						<label for="category-search">Category:</label>
+						<select ng-model="$ctrl.category" class="form-control">
+							<option value=""></option>
+							<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+						</select>
+					</div>
+					<div class="form-group" style="margin-left: 5px;">
+						<label for="search">Search:</label>
+						<input ng-model="$ctrl.query" class="form-control">
+					</div>
+				</form>
+			</div>
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
