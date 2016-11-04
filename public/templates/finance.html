@@ -3,10 +3,12 @@
 	<div class="row">
 		<div class="container">
 			<div class="col-md-6">
-				<canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries"></canvas>
+				<p>Monthly Earning and Expenses</p>
+				<canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries" chart-colors="barcolors" chart-options="baroptions"></canvas>
 			</div>
 			<div class="col-md-6">
-				<canvas id="pie" class="chart chart-pie" chart-data="data2" chart-labels="labels2" chart-options="options"></canvas> 
+				<p>Expense Categories</p>
+				<canvas id="pie" class="chart chart-pie" chart-data="piedata" chart-labels="pielabels" chart-options="pieoptions"></canvas> 
 			</div>
 		</div>
 	</div>
@@ -59,6 +61,7 @@
 					<tbody>
 						<tr ng-repeat="transaction in transactions | filter: {date: $ctrl.date, category: $ctrl.category, description: $ctrl.query} | orderBy: date">
 							<td>{{transaction.date | date : format : 'mediumDate'}}</td>
+							<!-- <td>{{transaction.date}}</td> -->
 							<td>{{transaction.category}}</td>
 							<td>{{transaction.description}}</td>
 							<td>{{transaction.amount | currency}}</td>
