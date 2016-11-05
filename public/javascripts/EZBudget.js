@@ -26,8 +26,8 @@ myApp.config(function ($routeProvider) {
     access: {restricted: true}
   })
 
-  .when('/finance', {
-    templateUrl: 'templates/finance.html',
+  .when('/transactions', {
+    templateUrl: 'templates/transactions.html',
     controller: 'transactionController',
     access: {restricted: true}
   })

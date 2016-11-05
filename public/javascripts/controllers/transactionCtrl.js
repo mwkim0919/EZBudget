@@ -1,6 +1,6 @@
 angular.module('EZBudget').controller('transactionController',
   ['$scope', '$location', 'transactionService',
-  function ($scope, $location, transactionService) {
+  function($scope, $location, transactionService) {
     $scope.transactions = [];
     $scope.balance = 0;
     $scope.categories = ['Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
@@ -29,14 +29,15 @@ angular.module('EZBudget').controller('transactionController',
 
     $scope.getTransactions = function() {
       transactionService.getTransactions()
-        .then(function (response) {
-          if (response) {
+        .then(function(response) {
+          if (response.data.obj.length != 0) {
             var dateSet = response.data.obj[0].date.substring(0,7);
             var view = null;
             var earning = 0;
             var expense = 0;
             for (var i = 0; i < response.data.obj.length; i++) {
               var transaction = {
+                id: response.data.obj[i]._id,
                 date: response.data.obj[i].date,
                 category: response.data.obj[i].category,
                 description: response.data.obj[i].description,
@@ -91,15 +92,16 @@ angular.module('EZBudget').controller('transactionController',
             $scope.bardata[1].reverse();
           }
         })
-        .catch(function () {
+        .catch(function() {
           // DO something
         });
     };
 
     $scope.addTransaction = function() {
       transactionService.addTransaction($scope.transaction.date, $scope.transaction.category, $scope.transaction.description, $scope.transaction.type, $scope.transaction.amount)
-        .then(function () {
+        .then(function(response) {
           var transaction = {
+            id: response.data.obj._id,
             date: JSON.stringify($scope.transaction.date).substring(1,25),
             category: $scope.transaction.category,
             description: $scope.transaction.description,
@@ -145,10 +147,20 @@ angular.module('EZBudget').controller('transactionController',
           }
           $scope.transaction = {};
           $('#transaction-form').modal('toggle');
-          $location.path('/finance');
+          $location.path('/transactions');
         })
-        .catch(function () {
+        .catch(function() {
           // DO something
+        });
+    };
+
+    $scope.removeTransaction = function(id) {
+      transactionService.removeTransaction(id)
+        .then(function(response) {
+          console.log(response);
+        })
+        .catch(function() {
+
         });
     };
 

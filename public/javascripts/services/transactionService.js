@@ -1,36 +1,24 @@
 angular.module('EZBudget').factory('transactionService',
 	['$q', '$timeout', '$http',
-	function ($q, $timeout, $http) {
+	function($q, $timeout, $http) {
     var transactions = [];
 
     return ({
       getTransactions: getTransactions,
       addTransaction: addTransaction,
-      // removeTransaction: removeTransaction,
+      removeTransaction: removeTransaction,
       // editTransaction: editTransaction
     });
 
     function getTransactions() {
       return $http.get('/transactions')
       // handle success
-      .success(function (data) {
+      .success(function(data) {
         // DO SOMETHING
-        // for (var i = 0; i < data.obj.length; i++) {
-        //   var transaction = {
-        //     date: data.obj[i].date,
-        //     category: data.obj[i].category,
-        //     description: data.obj[i].description,
-        //     type: data.obj[i].type,
-        //     amount: data.obj[i].amount
-        //   };
-        //   transactions.push(transaction);
-        // }
-        // console.log(transactions);
-        // return transactions;
       })
       // handle error
-      .error(function (data) {
-
+      .error(function(data) {
+        // DO SOMETHING
       });
     }
 
@@ -45,14 +33,25 @@ angular.module('EZBudget').factory('transactionService',
         }
       )
       // handle success
-      .success(function (data, status) {
+      .success(function(data, status) {
         if (status === 201 && data.status) {
           // DO something
         }
       })
-      .error(function (data) {
+      .error(function(data) {
         // DO something
       });
     }
     
+    function removeTransaction(id) {
+      return $http.delete('/transactions/' + id)
+      // handle success
+      .success(function(status) {
+        // DO something
+      })
+      // handle error
+      .error(function(data) {
+        // DO something
+      });
+    }
 }]);

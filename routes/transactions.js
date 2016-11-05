@@ -61,6 +61,12 @@ router.delete('/:id', function(req, res, next) {
                 error: {message: 'Transaction could not be found'}
             });
         }
+        if (JSON.stringify(doc.user) != JSON.stringify(req.user._id)) {
+            return res.status(401).json({
+                title: 'Not Authorized',
+                error: {message: 'Transaction created by other user'},
+            });
+        }
         doc.remove(function(err, result) {
             if (err) {
                 return res.status(404).json({
