@@ -14,11 +14,11 @@ angular.module('EZBudget').factory('transactionService',
       return $http.get('/transactions')
       // handle success
       .success(function(data) {
-        // DO SOMETHING
+        // DO something
       })
       // handle error
       .error(function(data) {
-        // DO SOMETHING
+        // DO something
       });
     }
 
@@ -50,8 +50,29 @@ angular.module('EZBudget').factory('transactionService',
         // DO something
       })
       // handle error
-      .error(function(data) {
+      .error(function(status) {
         // DO something
       });
     }
+
+    function editTransaction(id, date, category, description, type, amount) {
+      return $http.patch('/transactions/' + id,
+        {
+          date: date,
+          category: category,
+          description: description,
+          type: type,
+          amount: amount,
+        }
+      )
+      // handle success
+      .success(function(status) {
+        // DO something
+      })
+      // handle error
+      .error(function(status) {
+
+      });
+    }
+
 }]);

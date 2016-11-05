@@ -157,7 +157,35 @@ angular.module('EZBudget').controller('transactionController',
     $scope.removeTransaction = function(id) {
       transactionService.removeTransaction(id)
         .then(function(response) {
-          console.log(response);
+          console.log(response.data.obj);
+          // REMOVE THE DATA FROM BAR CHART
+          var date = response.data.obj.date.substring(0,7);
+          var bindex = $scope.barlabels.indexOf(date);
+          if (response.data.obj.type == 'Earning') {
+            $scope.bardata[0][bindex] -= response.data.obj.amount;
+          } else {
+            $scope.bardata[1][bindex] -= response.data.obj.amount;
+          }
+          /* 
+          * REMOVE THE LABEL DATE FOR BAR CHART
+          * AND VIEW PERIOD IF THERE IS NO DATA LEFT FOR
+          * THAT PERIOD.
+          */
+          if ($scope.bardata[0][bindex] == 0 && $scope.bardata[1][bindex] == 0) {
+            $scope.barlabels.splice(bindex,1);
+            $scope.views = $scope.views.filter(function(view) {
+              return view != date;
+            });
+          }
+          // REMOVE THE DATA FROM PIE CHART
+          if (response.data.obj.type == 'Expense') {
+            var category = response.data.obj.category;
+            var pindex = $scope.pielabels.indexOf(category);
+            $scope.piedata[pindex] -= response.data.obj.amount;
+          }
+          $scope.transactions = $scope.transactions.filter(function(obj) {
+            return obj.id != id;
+          });
         })
         .catch(function() {
 

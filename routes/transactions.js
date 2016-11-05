@@ -82,5 +82,45 @@ router.delete('/:id', function(req, res, next) {
     });
 });
 
+router.patch('/:id', function(req, res, next) {
+    Transaction.findById(req.params.id, function(err, doc) {
+        if (err) {
+            return res.status(404).json({
+                title: 'An error occurred',
+                error: err
+            });
+        }
+        if (!doc) {
+            return res.status(404).json({
+                title: 'No transaction found',
+                error: {message: 'Transaction could not be found'}
+            });
+        }
+        if (JSON.stringify(doc.user) != JSON.stringify(req.user._id)) {
+            return res.status(401).json({
+                title: 'Not Authorized',
+                error: {message: 'Transaction created by other user'},
+            });
+        }
+        doc.date = req.body.date;
+        doc.category = req.body.category;
+        doc.description = req.body.description;
+        doc.type = req.body.type;
+        doc.amount = req.body.amount;
+        doc.save(function(err, result) {
+            if (err) {
+                return res.status(404).json({
+                    title: 'An error occurred',
+                    error: err
+                });
+            }
+            res.status(200).json({
+                message: 'Success',
+                obj: result
+            });
+        });
+    });
+});
+
 module.exports = router;
 
