@@ -192,4 +192,22 @@ angular.module('EZBudget').controller('transactionController',
         });
     };
 
+    $scope.editTransaction = function(id) {
+      transactionService.editTransaction(id, $scope.transaction.date, $scope.transaction.category, $scope.transaction.description, $scope.transaction.type, $scope.transaction.amount)
+        .then(function(response) {
+          $scope.transactions = $.grep($scope.transactions, function(transaction) {
+            if (transaction.id == id) {
+              transaction.date = JSON.stringify($scope.transaction.date).substring(1,25);
+              transaction.category = $scope.transaction.category;
+              transaction.description = $scope.transaction.description;
+              transaction.type = $scope.transaction.type;
+              transaction.amount = $scope.transaction.amount;
+            }
+          });
+        })
+        .catch(function() {
+
+        });
+    };
+
 }]);

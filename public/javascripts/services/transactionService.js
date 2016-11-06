@@ -7,7 +7,7 @@ angular.module('EZBudget').factory('transactionService',
       getTransactions: getTransactions,
       addTransaction: addTransaction,
       removeTransaction: removeTransaction,
-      // editTransaction: editTransaction
+      editTransaction: editTransaction
     });
 
     function getTransactions() {

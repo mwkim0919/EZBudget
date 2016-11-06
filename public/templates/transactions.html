@@ -66,7 +66,7 @@
 							<td>{{transaction.description}}</td>
 							<td>{{transaction.amount | currency}}</td>
 							<td>
-								<button class="btn btn-sm btn-info" ng-click="">
+								<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#transaction-edit-form">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>
 								<button class="btn btn-sm btn-danger" ng-click="removeTransaction(transaction.id)">
@@ -104,15 +104,7 @@
 								<span class="input-group-addon">Category</span>
 								<select name="category" ng-model="transaction.category" class="form-control">
 									<option value=" "></option>
-									<option value="Clothing">Clothing</option>
-									<option value="Education">Education</option>
-									<option value="Entertainment">Entertainment</option>
-									<option value="Food">Food</option>
-									<option value="Housing">Housing</option>
-									<option value="Medical">Medical</option>
-									<option value="Personal">Personal</option>
-									<option value="Transportation">Transportation</option>
-									<option value="Utilities">Utilities</option>
+									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
 								</select>
 							</div>
 						</div>
@@ -143,6 +135,67 @@
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
 								<input type="submit" class="form-control btn btn-primary" value="Add">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="transaction-edit-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Edit your transaction</h4>
+			</div>
+			<div class="modal-body">
+				<form ng-submit="editTransaction(transaction.id)">
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">Date</span>
+								<input ng-model="transaction.date" type="date" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">Category</span>
+								<select name="category" ng-model="transaction.category" class="form-control">
+									<option value=" "></option>
+									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Description</span>
+						<input type="text" ng-model="transaction.description" class="form-control">
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">Type</span>
+								<select name="type" ng-model="transaction.type" class="form-control" required>
+									<option value=""></option>
+									<option value="Earning">Earning</option>
+									<option value="Expense">Expense</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-8 col-sm-8">
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input ng-model="transaction.amount" type="number" min="0.01" step="0.01" class="form-control" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" class="form-control btn btn-info" value="Edit">
 							</div>
 						</div>
 					</div>
