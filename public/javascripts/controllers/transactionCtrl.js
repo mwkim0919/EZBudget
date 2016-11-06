@@ -206,6 +206,8 @@ angular.module('EZBudget').controller('transactionController',
       var date = $scope.barlabels[index];
       if ($scope.bardata[0][index] == 0 && $scope.bardata[1][index] == 0) {
         $scope.barlabels.splice(index,1);
+        $scope.bardata[0].splice(index,1);
+        $scope.bardata[1].splice(index,1);
         $scope.views = $scope.views.filter(function(view) {
           return view != date;
         });

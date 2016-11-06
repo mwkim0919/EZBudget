@@ -141,6 +141,10 @@ body {
     padding-top: 8px;
 }
 
+.table th, td, option {
+	text-align: center;
+}
+
 .input-group {
 	margin-bottom: 15px;
 }
