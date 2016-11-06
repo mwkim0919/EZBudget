@@ -66,7 +66,7 @@
 							<td>{{transaction.description}}</td>
 							<td>{{transaction.amount | currency}}</td>
 							<td>
-								<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#transaction-edit-form">
+								<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#transaction-edit-form" ng-click="fetchTransaction(transaction.id)">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>
 								<button class="btn btn-sm btn-danger" ng-click="removeTransaction(transaction.id)">
@@ -152,18 +152,18 @@
 				<h4 class="modal-title" id="myModalLabel">Edit your transaction</h4>
 			</div>
 			<div class="modal-body">
-				<form ng-submit="editTransaction(transaction.id)">
+				<form ng-submit="editTransaction(transactionEdit.id)">
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
 								<span class="input-group-addon">Date</span>
-								<input ng-model="transaction.date" type="date" class="form-control" required>
+								<input ng-model="transactionEdit.date" type="date" class="form-control" required>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
 								<span class="input-group-addon">Category</span>
-								<select name="category" ng-model="transaction.category" class="form-control">
+								<select name="category" ng-model="transactionEdit.category" class="form-control">
 									<option value=" "></option>
 									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
 								</select>
@@ -172,13 +172,13 @@
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Description</span>
-						<input type="text" ng-model="transaction.description" class="form-control">
+						<input type="text" ng-model="transactionEdit.description" class="form-control">
 					</div>
 					<div class="row">
 						<div class="col-md-4 col-sm-4">
 							<div class="input-group">
 								<span class="input-group-addon">Type</span>
-								<select name="type" ng-model="transaction.type" class="form-control" required>
+								<select name="type" ng-model="transactionEdit.type" class="form-control" required>
 									<option value=""></option>
 									<option value="Earning">Earning</option>
 									<option value="Expense">Expense</option>
@@ -188,7 +188,7 @@
 						<div class="col-md-8 col-sm-8">
 							<div class="input-group">
 								<span class="input-group-addon">$</span>
-								<input ng-model="transaction.amount" type="number" min="0.01" step="0.01" class="form-control" required>
+								<input ng-model="transactionEdit.amount" type="number" min="0.01" step="0.01" class="form-control" required>
 							</div>
 						</div>
 					</div>

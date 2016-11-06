@@ -193,21 +193,40 @@ angular.module('EZBudget').controller('transactionController',
     };
 
     $scope.editTransaction = function(id) {
-      transactionService.editTransaction(id, $scope.transaction.date, $scope.transaction.category, $scope.transaction.description, $scope.transaction.type, $scope.transaction.amount)
+      transactionService.editTransaction(id, $scope.transactionEdit.date, $scope.transactionEdit.category, $scope.transactionEdit.description, $scope.transactionEdit.type, $scope.transactionEdit.amount)
         .then(function(response) {
-          $scope.transactions = $.grep($scope.transactions, function(transaction) {
-            if (transaction.id == id) {
-              transaction.date = JSON.stringify($scope.transaction.date).substring(1,25);
-              transaction.category = $scope.transaction.category;
-              transaction.description = $scope.transaction.description;
-              transaction.type = $scope.transaction.type;
-              transaction.amount = $scope.transaction.amount;
-            }
+          var editedTransaction = $scope.transactions.filter(function (transaction) {
+            return transaction.id == id;
           });
+          editedTransaction[0].date = JSON.stringify($scope.transactionEdit.date).substring(1,25);
+          editedTransaction[0].category = $scope.transactionEdit.category;
+          editedTransaction[0].description = $scope.transactionEdit.description;
+          editedTransaction[0].type = $scope.transactionEdit.type;
+          editedTransaction[0].amount = $scope.transactionEdit.amount;
+          $scope.transactionEdit = {};
+          $('#transaction-edit-form').modal('toggle');
+          $location.path('/transactions');
+          // UPDATE BAR CHART
+
+          // UPDATE PIE CHART
         })
         .catch(function() {
 
         });
     };
+
+    $scope.fetchTransaction = function(id) {
+      var result = $scope.transactions.filter(function (transaction) {
+        return transaction.id == id;
+      });
+      $scope.transactionEdit = {
+        id: result[0].id,
+        date: new Date(result[0].date),
+        category: result[0].category,
+        description: result[0].description,
+        type: result[0].type,
+        amount: result[0].amount,
+      };
+    }
 
 }]);
