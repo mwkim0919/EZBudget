@@ -3,11 +3,9 @@
 	<div class="row">
 		<div class="container">
 			<div class="col-md-6">
-				<p>Monthly Earning and Expenses</p>
 				<canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries" chart-colors="barcolors" chart-options="baroptions"></canvas>
 			</div>
 			<div class="col-md-6">
-				<p>Expense Categories</p>
 				<canvas id="pie" class="chart chart-pie" chart-data="piedata" chart-labels="pielabels" chart-options="pieoptions"></canvas> 
 			</div>
 		</div>
@@ -26,10 +24,22 @@
 			<div class="table-responsive">
 				<table class="table">
 					<thead>
-						<th class="col-md-2">Date</th>
-						<th class="col-md-2">Category</th>
-						<th class="col-md-5">Description</th>
-						<th class="col-md-2">Amount</th>
+						<th ng-click="sort('date')" class="col-md-2">
+							Date
+							<span class="glyphicon sort-icon" ng-show="sortKey=='date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+						</th>
+						<th ng-click="sort('category')" class="col-md-2">
+							Category
+							<span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+						</th>
+						<th ng-click="sort('description')" class="col-md-5">
+							Description
+							<span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+						</th>
+						<th ng-click="sort('amount')" class="col-md-2">
+							Amount
+							<span class="glyphicon sort-icon" ng-show="sortKey=='amount'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+						</th>
 						<th class="col-md-1">Action</th>
 					</thead>
 					<tbody>
@@ -53,16 +63,16 @@
 								<input ng-model="$ctrl.amount" class="form-control">
 							</td>
 						</tr>
-						<tr ng-repeat="transaction in transactions | filter: {date: $ctrl.date, category: $ctrl.category, description: $ctrl.description, amount: $ctrl.amount} | orderBy: date" id="{{transaction.id}}">
+						<tr dir-paginate="transaction in transactions | filter: {date: $ctrl.date, category: $ctrl.category, description: $ctrl.description, amount: $ctrl.amount} | orderBy:sortKey:reverse | itemsPerPage:10" id="{{transaction.id}}">
 							<td>{{transaction.date | date : format : 'mediumDate'}}</td>
 							<td>{{transaction.category}}</td>
 							<td>{{transaction.description}}</td>
 							<td>{{transaction.amount | currency}}</td>
 							<td>
-								<button class="btn btn-sm btn-info" data-toggle="modal" data-target="#transaction-edit-form" ng-click="fetchTransaction(transaction.id)">
+								<button class="btn btn-xs btn-info" data-toggle="modal" data-target="#transaction-edit-form" ng-click="fetchTransaction(transaction.id)">
 									<span class="glyphicon glyphicon-pencil"></span>
 								</button>
-								<button class="btn btn-sm btn-danger" ng-click="removeTransaction(transaction.id)">
+								<button class="btn btn-xs btn-danger" ng-click="removeTransaction(transaction.id)">
 									<span class="glyphicon glyphicon-remove"></span>
 								</button>
 							</td>
@@ -70,6 +80,7 @@
 					</tbody>
 				</table>
 				<!-- <p>Balance: {{balance}}</p> -->
+				<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
 			</div>
 		</div>
 	</div>

@@ -1,4 +1,4 @@
-var myApp = angular.module('EZBudget', ['ngRoute', 'chart.js']);
+var myApp = angular.module('EZBudget', ['ngRoute', 'chart.js', 'angularUtils.directives.dirPagination']);
 
 myApp.config(function ($routeProvider) {
 
@@ -11,7 +11,6 @@ myApp.config(function ($routeProvider) {
 
   .when('/dashboard', {
     templateUrl: 'templates/dashboard.html',
-    controller: 'userController',
     access: {restricted: true}
   })
 
@@ -31,6 +30,13 @@ myApp.config(function ($routeProvider) {
     controller: 'transactionController',
     access: {restricted: true}
   })
+
+  .when('/schedule', {
+    templateUrl: 'templates/schedule.html',
+    controller: 'scheduleController',
+    access: {restricted: true}
+  })
+  
   .otherwise({
     redirectTo: '/'
   });

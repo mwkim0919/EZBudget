@@ -124,6 +124,15 @@ body {
 	margin-top: 20px;
 }
 
+canvas {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-pref */
+}
+
 .dashboard-item {
 	display: block;
 }
@@ -143,6 +152,21 @@ body {
 
 .table th, td, option {
 	text-align: center;
+}
+
+.table th {
+	cursor: pointer;
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Chrome/Safari/Opera */
+	-khtml-user-select: none; /* Konqueror */
+	-moz-user-select: none; /* Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-pref */
+}
+
+.sort-icon {
+    font-size: 9px;
+    margin-left: 5px;
 }
 
 .input-group {

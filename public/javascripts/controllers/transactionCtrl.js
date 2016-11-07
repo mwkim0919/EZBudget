@@ -16,6 +16,11 @@ angular.module('EZBudget').controller('transactionController',
         labels: ["Earning", "Expense"],
       },
       scaleStartValue: 0,
+      title: {
+        text: "Monthly Earning and Expenses",
+        fontSize: 17,        
+        display: true,
+      }
     };
 
     $scope.pielabels = ['Others', 'Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
@@ -25,8 +30,18 @@ angular.module('EZBudget').controller('transactionController',
         display: true,
         position: 'right',
         labels: ['Others', 'Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'],
+      },
+      title: {
+        text: "Expense Categories",
+        fontSize: 17,        
+        display: true,
       }
     }
+
+    $scope.sort = function(key) {
+      $scope.sortKey = key;
+      $scope.reverse = !$scope.reverse;
+    };
 
     $scope.getTransactions = function() {
       transactionService.getTransactions()
