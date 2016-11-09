@@ -1,4 +1,4 @@
-var myApp = angular.module('EZBudget', ['ngRoute', 'chart.js', 'angularUtils.directives.dirPagination']);
+var myApp = angular.module('EZBudget', ['ngRoute', 'chart.js', 'angularUtils.directives.dirPagination', 'mwl.calendar']);
 
 myApp.config(function ($routeProvider) {
 

@@ -20,8 +20,11 @@ angular.module('EZBudget').controller('transactionController',
         text: "Monthly Earning and Expenses",
         fontSize: 17,        
         display: true,
-      }
+      },
     };
+    $scope.baronclick = function(point, evt) {
+      console.log(point, evt);
+    }
 
     $scope.pielabels = ['Others', 'Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
     $scope.piedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
