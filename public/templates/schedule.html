@@ -1,1 +1,178 @@
 <div ng-include="'/templates/navbar.html'"></div>
+
+<div class="dashboard-body">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title pull-left"><strong>{{ calendarTitle }}</strong></h3>
+			<div class="pull-right">
+				<button class="btn btn-default" data-toggle="modal" data-target="#schedule-form">
+					<span class="glyphicon glyphicon-plus"></span>
+				</button>
+			</div>
+			<div class="clearfix"></div>
+		</div>
+		<div class="panel-body">
+			<div class="btn-group">
+				<button
+				class="btn btn-primary"
+				mwl-date-modifier
+				date="viewDate"
+				decrement="calendarView">
+				Previous
+				</button>
+
+				<button
+				class="btn btn-default"
+				mwl-date-modifier
+				date="viewDate"
+				set-to-today>
+				Today
+				</button>
+
+				<button
+				class="btn btn-primary"
+				mwl-date-modifier
+				date="viewDate"
+				increment="calendarView">
+				Next
+				</button>
+				</div>
+
+				<div class="btn-group pull-right">
+					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'" ng-click="cellIsOpen = false">Year</label>
+					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'" ng-click="cellIsOpen = false">Month</label>
+					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'" ng-click="cellIsOpen = false">Week</label>
+					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'" ng-click="cellIsOpen = false">Day</label>
+				</div>
+
+			    <mwl-calendar
+			    view="calendarView"
+			    view-date="viewDate"
+			    events="events"
+			    view-title="calendarTitle"
+			    on-event-click="eventClicked(calendarEvent)"
+			    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+			    cell-is-open="true">
+				</mwl-calendar>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="schedule-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Add your schedule</h4>
+			</div>
+			<div class="modal-body">
+				<form ng-submit="addTransaction()">
+					<div class="row">
+						<div class="col-md-7 col-sm-7">
+							<div class="input-group">
+								<span class="input-group-addon">Title</span>
+								<input type="text" ng-model="schedule.title" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-5 col-sm-5">
+							<div class="input-group">
+								<span class="input-group-addon">Category</span>
+								<select ng-model="schedule.category" class="form-control" required>
+									<option value=""></option>
+									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">Start</span>
+								<input ng-model="schedule.startDate" type="datetime-local" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">End</span>
+								<input ng-model="schedule.endDate" type="datetime-local" class="form-control" required>
+							</div>
+						</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Description</span>
+						<input type="text" ng-model="schedule.description" class="form-control">
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" class="form-control btn btn-primary" value="Add">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="schedule-edit-form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="myModalLabel">Edit your transaction</h4>
+			</div>
+			<div class="modal-body">
+				<form ng-submit="editTransaction(transactionEdit.id)">
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">Date</span>
+								<input ng-model="transactionEdit.date" type="date" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">Category</span>
+								<select name="category" ng-model="transactionEdit.category" class="form-control">
+									<option value=" "></option>
+									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<div class="input-group">
+						<span class="input-group-addon">Description</span>
+						<input type="text" ng-model="transactionEdit.description" class="form-control">
+					</div>
+					<div class="row">
+						<div class="col-md-4 col-sm-4">
+							<div class="input-group">
+								<span class="input-group-addon">Type</span>
+								<select name="type" ng-model="transactionEdit.type" class="form-control" required>
+									<option value=""></option>
+									<option value="Earning">Earning</option>
+									<option value="Expense">Expense</option>
+								</select>
+							</div>
+						</div>
+						<div class="col-md-8 col-sm-8">
+							<div class="input-group">
+								<span class="input-group-addon">$</span>
+								<input ng-model="transactionEdit.amount" type="number" min="0.01" step="0.01" class="form-control" required>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" class="form-control btn btn-info" value="Edit">
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

@@ -16,10 +16,12 @@ mongoose.connect('mongodb://localhost/EZBudget');
 // USER SCHEMA/MODEL
 var User = require('./models/user.js');
 var Transaction = require('./models/transaction.js');
+var Schedule = require('./models/schedule.js');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var transactions = require('./routes/transactions');
+var schedules = require('./routes/schedules');
 
 var app = express();
 
@@ -52,6 +54,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use('/', routes);
 app.use('/user/', users);
 app.use('/transactions/', transactions);
+app.use('/schedules/', schedules);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
