@@ -173,6 +173,12 @@ canvas {
 	margin-bottom: 15px;
 }
 
+/*SCHEDULE*/
+#scheduleSelect option {
+	color: white;
+	font-weight: bold;
+}
+
 /*NAVBAR*/
 .nav-side-menu {
 	overflow: auto;

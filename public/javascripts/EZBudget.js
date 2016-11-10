@@ -31,7 +31,7 @@ myApp.config(function ($routeProvider) {
     access: {restricted: true}
   })
 
-  .when('/schedule', {
+  .when('/schedules', {
     templateUrl: 'templates/schedule.html',
     controller: 'scheduleController',
     access: {restricted: true}

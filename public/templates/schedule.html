@@ -1,6 +1,6 @@
 <div ng-include="'/templates/navbar.html'"></div>
 
-<div class="dashboard-body">
+<div class="dashboard-body" ng-init="getSchedules()">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title pull-left"><strong>{{ calendarTitle }}</strong></h3>
@@ -46,7 +46,7 @@
 		    <mwl-calendar
 		    view="calendarView"
 		    view-date="viewDate"
-		    events="events"
+		    events="schedules"
 		    view-title="calendarTitle"
 		    on-event-click="eventClicked(calendarEvent)"
 		    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
@@ -64,8 +64,8 @@
 				<h4 class="modal-title" id="myModalLabel">Add your schedule</h4>
 			</div>
 			<div class="modal-body">
-				<form ng-submit="addTransaction()">
-					<div ng-if="err" class="alert alert-danger">
+				<form ng-submit="addSchedule(schedule)">
+					<div ng-if="!checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)" class="alert alert-danger">
 						{{errMessage}}
 					</div>
 					<div class="row">
@@ -78,9 +78,9 @@
 						<div class="col-md-5 col-sm-5">
 							<div class="input-group">
 								<span class="input-group-addon">Category</span>
-								<select ng-model="schedule.category" class="form-control" required>
+								<select id="scheduleSelect" ng-model="schedule.category" class="form-control" required>
 									<option value=""></option>
-									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+									<option ng-repeat="category in categories" value="{{category}}" style="background-color: {{colors[category].primary}};">{{category}}</option>
 								</select>
 							</div>
 						</div>
@@ -120,7 +120,7 @@
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
-								<input type="submit" class="form-control btn btn-primary" value="Add">
+								<input type="submit" ng-disabled="!checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)" class="form-control btn btn-primary" value="Add">
 							</div>
 						</div>
 					</div>
@@ -138,50 +138,63 @@
 				<h4 class="modal-title" id="myModalLabel">Edit your transaction</h4>
 			</div>
 			<div class="modal-body">
-				<form ng-submit="editTransaction(transactionEdit.id)">
+				<form ng-submit="editSchedule(scheduleEdit.id)">
+					<div ng-if="!checkErr(scheduleEdit.startDate, scheduleEdit.endDate, scheduleEdit.startTime, scheduleEdit.endTime)" class="alert alert-danger">
+						{{errMessage}}
+					</div>
+					<div class="row">
+						<div class="col-md-7 col-sm-7">
+							<div class="input-group">
+								<span class="input-group-addon">Title</span>
+								<input type="text" ng-model="scheduleEdit.title" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-5 col-sm-5">
+							<div class="input-group">
+								<span class="input-group-addon">Category</span>
+								<select id="scheduleSelect" ng-model="scheduleEdit.category" class="form-control" required>
+									<option value=""></option>
+									<option ng-repeat="category in categories" value="{{category}}" style="background-color: {{colors[category].primary}};">{{category}}</option>
+								</select>
+							</div>
+						</div>
+					</div>
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">Date</span>
-								<input ng-model="transactionEdit.date" type="date" class="form-control" required>
+								<span class="input-group-addon">Start Date</span>
+								<input ng-model="scheduleEdit.startDate" type="date" class="form-control" required>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">Category</span>
-								<select name="category" ng-model="transactionEdit.category" class="form-control">
-									<option value=" "></option>
-									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-								</select>
+								<span class="input-group-addon">Start Time</span>
+								<input ng-model="scheduleEdit.startTime" type="time" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">End Date</span>
+								<input ng-model="scheduleEdit.endDate" ng-change='checkErr(scheduleEdit.startDate, scheduleEdit.endDate, scheduleEdit.startTime, scheduleEdit.endTime)' ng-disabled="!scheduleEdit.startDate" type="date" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">End Time</span>
+								<input ng-model="scheduleEdit.endTime" ng-change='checkErr(scheduleEdit.startDate, scheduleEdit.endDate, scheduleEdit.startTime, scheduleEdit.endTime)' ng-disabled="!scheduleEdit.startDate && !scheduleEdit.startTime" type="time" class="form-control">
 							</div>
 						</div>
 					</div>
 					<div class="input-group">
 						<span class="input-group-addon">Description</span>
-						<input type="text" ng-model="transactionEdit.description" class="form-control">
-					</div>
-					<div class="row">
-						<div class="col-md-4 col-sm-4">
-							<div class="input-group">
-								<span class="input-group-addon">Type</span>
-								<select name="type" ng-model="transactionEdit.type" class="form-control" required>
-									<option value=""></option>
-									<option value="Earning">Earning</option>
-									<option value="Expense">Expense</option>
-								</select>
-							</div>
-						</div>
-						<div class="col-md-8 col-sm-8">
-							<div class="input-group">
-								<span class="input-group-addon">$</span>
-								<input ng-model="transactionEdit.amount" type="number" min="0.01" step="0.01" class="form-control" required>
-							</div>
-						</div>
+						<input type="text" ng-model="scheduleEdit.description" class="form-control">
 					</div>
 					<div class="form-group">
 						<div class="row">
 							<div class="col-sm-6 col-sm-offset-3">
-								<input type="submit" class="form-control btn btn-info" value="Edit">
+								<input type="submit" ng-disabled="!checkErr(scheduleEdit.startDate, scheduleEdit.endDate, scheduleEdit.startTime, scheduleEdit.endTime)" class="form-control btn btn-info" value="Edit">
 							</div>
 						</div>
 					</div>
