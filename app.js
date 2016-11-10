@@ -10,8 +10,21 @@ var hash = require('bcrypt-nodejs');
 var passport = require('passport');
 var localStrategy = require('passport-local').Strategy;
 
+var uristring =
+    process.env.MONGOLAB_URI ||
+    process.env.MONGOHQ_URL ||
+    'mongodb://localhost/EZBudget';
+
 // MONGOOSE
-mongoose.connect('mongodb://localhost/EZBudget');
+mongoose.connect(uristring, function (err, res) {
+  if (err) {
+    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+  } else {
+    console.log ('Succeeded connected to: ' + uristring);
+  }
+});
+// mongoose.connect('mongodb://localhost/EZBudget');
+// mongoose.connect('mongodb://<dbuser>:<dbpassword>@ds145245.mlab.com:45245/heroku_c29r0dph')
 
 // USER SCHEMA/MODEL
 var User = require('./models/user.js');
