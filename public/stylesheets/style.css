@@ -1,11 +1,15 @@
 body {
-	/*padding-top: 40px;*/
+	background-color: #f7f7f7;
 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 .home-header {
 	display: block;
 	text-align: center;
+}
+
+.title, .subtitle {
+	font-family: 'Shrikhand', cursive;
 }
 
 /*SIGN IN SIGN UP PAGE*/
@@ -122,6 +126,10 @@ body {
 	margin-left: 220px;
 	margin-right: 20px;
 	margin-top: 20px;
+}
+
+#dashboard mwl-calendar {
+	height: 300px;
 }
 
 canvas {

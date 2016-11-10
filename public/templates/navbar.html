@@ -6,6 +6,11 @@
 
     <ul id="menu-content" class="menu-content collapse out">
       <li>
+        <a class="dashboard-item" href="">
+          <i class="fa fa-user fa-lg"></i> Welcome {{current_user}}
+        </a>
+      </li>
+      <li>
         <a class="dashboard-item" href="#/dashboard">
           <i class="fa fa-dashboard fa-lg"></i> Dashboard
         </a>
@@ -20,13 +25,11 @@
           <i class="fa fa-calendar fa-lg"></i> Schedule
         </a>
       </li>
-      <li data-toggle="collapse" data-target="#products" class="collapsed">
-        <a class="dashboard-item" href=""><i class="fa fa-user fa-lg"></i> {{current_user}} <span class="arrow"></span></a>
+      <li>
+        <a class="dashboard-item" ng-click="logout()">
+          <i class="fa fa-sign-out fa-lg"></i> Sign Out
+        </a>
       </li>
-      <ul class="sub-menu collapse" id="products">
-        <li><a href="#">Profile</a></li>
-        <li class="active"><a ng-click="logout()">Sign Out</a></li>
-      </ul>
     </ul>
   </div>
 </div>
