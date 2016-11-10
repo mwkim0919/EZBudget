@@ -20,7 +20,6 @@
 				decrement="calendarView">
 				Previous
 				</button>
-
 				<button
 				class="btn btn-default"
 				mwl-date-modifier
@@ -28,7 +27,6 @@
 				set-to-today>
 				Today
 				</button>
-
 				<button
 				class="btn btn-primary"
 				mwl-date-modifier
@@ -36,25 +34,24 @@
 				increment="calendarView">
 				Next
 				</button>
-				</div>
-
-				<div class="btn-group pull-right">
-					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'" ng-click="cellIsOpen = false">Year</label>
-					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'" ng-click="cellIsOpen = false">Month</label>
-					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'" ng-click="cellIsOpen = false">Week</label>
-					<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'" ng-click="cellIsOpen = false">Day</label>
-				</div>
-
-			    <mwl-calendar
-			    view="calendarView"
-			    view-date="viewDate"
-			    events="events"
-			    view-title="calendarTitle"
-			    on-event-click="eventClicked(calendarEvent)"
-			    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
-			    cell-is-open="true">
-				</mwl-calendar>
 			</div>
+
+			<div class="btn-group pull-right">
+				<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'year'" ng-click="cellIsOpen = false">Year</label>
+				<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'month'" ng-click="cellIsOpen = false">Month</label>
+				<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'week'" ng-click="cellIsOpen = false">Week</label>
+				<label class="btn btn-primary" ng-model="calendarView" uib-btn-radio="'day'" ng-click="cellIsOpen = false">Day</label>
+			</div>
+
+		    <mwl-calendar
+		    view="calendarView"
+		    view-date="viewDate"
+		    events="events"
+		    view-title="calendarTitle"
+		    on-event-click="eventClicked(calendarEvent)"
+		    on-event-times-changed="calendarEvent.startsAt = calendarNewEventStart; calendarEvent.endsAt = calendarNewEventEnd"
+		    cell-is-open="true">
+			</mwl-calendar>
 		</div>
 	</div>
 </div>
@@ -68,6 +65,9 @@
 			</div>
 			<div class="modal-body">
 				<form ng-submit="addTransaction()">
+					<div ng-if="err" class="alert alert-danger">
+						{{errMessage}}
+					</div>
 					<div class="row">
 						<div class="col-md-7 col-sm-7">
 							<div class="input-group">
@@ -88,14 +88,28 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">Start</span>
-								<input ng-model="schedule.startDate" type="datetime-local" class="form-control" required>
+								<span class="input-group-addon">Start Date</span>
+								<input ng-model="schedule.startDate" type="date" class="form-control" required>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">End</span>
-								<input ng-model="schedule.endDate" type="datetime-local" class="form-control" required>
+								<span class="input-group-addon">Start Time</span>
+								<input ng-model="schedule.startTime" type="time" class="form-control">
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">End Date</span>
+								<input ng-model="schedule.endDate" ng-change='checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)' ng-disabled="!schedule.startDate" type="date" class="form-control" required>
+							</div>
+						</div>
+						<div class="col-md-6 col-sm-6">
+							<div class="input-group">
+								<span class="input-group-addon">End Time</span>
+								<input ng-model="schedule.endTime" ng-change='checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)' ng-disabled="!schedule.startDate && !schedule.startTime" type="time" class="form-control">
 							</div>
 						</div>
 					</div>

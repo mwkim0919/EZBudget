@@ -20,4 +20,4 @@ Schedule.post('remove', function(doc) {
 	});
 });
 
-module.exports = mongoose.model('Transaction', Transaction);
+module.exports = mongoose.model('Schedule', Schedule);

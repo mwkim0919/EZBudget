@@ -1,17 +1,16 @@
 angular.module('EZBudget').controller('scheduleController',
-  ['$scope', '$location', 'moment', 'calendarConfig',
-  function($scope, $location, moment, calendarConfig, alert) {
+  ['$scope', '$location', 'moment', 'calendarConfig', 'scheduleService',
+  function($scope, $location, moment, calendarConfig, alert, scheduleService') {
   	
     var actions = [{
   		label: '<i class=\'glyphicon glyphicon-pencil\'></i>',
   		onClick: function(args) {
   			$('#schedule-edit-form').modal('toggle');
-  			// alert.show('Edited', args.calendarEvent);
   		}
   	}, {
   		label: '<i class=\'glyphicon glyphicon-remove\'></i>',
   		onClick: function(args) {
-  			// alert.show('Deleted', args.calendarEvent);
+
   		}
   	}];
 
@@ -19,19 +18,25 @@ angular.module('EZBudget').controller('scheduleController',
     $scope.viewDate = new Date();
     $scope.cellIsOpen = true;
     $scope.categories = ['info', 'important', 'warning', 'inverse', 'special', 'success'];
-    
-    $scope.checkScheduleForm = function(start, end) {
-      $scope.errMsg = '';
-      if ($scope.schedule.startDate < $scope.schedule.endDate) {
-        $scope.errMsg = 'End date must be later than start date.';
-        $scope.disabled = true;
-        return false;
+
+    $scope.checkErr = function(startDate, endDate, startTime, endTime) {
+      $scope.errMessage = '';
+      $scope.err = false;
+      if(startDate <= endDate) {
+        if (startTime > endTime) {
+          $scope.err = true;
+          $scope.errMessage = 'End Date should be greater than start date';
+          return false;
+        }
       } else {
-        $scope.disabled = false;
-        return true;
+        $scope.err = true;
+        $scope.errMessage = 'End Date should be greater than start date';
+        return false;
       }
+      return true;
     }
 
+    $scope.schedules = [];
   	// $scope.events = [
    //    {
    //      title: 'An event',
@@ -60,6 +65,46 @@ angular.module('EZBudget').controller('scheduleController',
    //      actions: actions
    //    }
    //  ];
+   $scope.getSchedules = function() {
+      scheduleService.getSchedules()
+        .then(function(response) {
+          if (response.data.obj.length != 0) {
+            for (var i = 0; i < response.data.obj.length; i++) {
+              var schedule = {
+                id: response.data.obj[i]._id,
+                title: response.data.obj[i].title,
+                color: response.data.obj[i].category,
+                startsAt: response.data.obj[i].startDate,
+                endsAt: response.data.obj[i].endDate,
+                description: response.data.obj[i].description,
+              }
+              $scope.schedules.push(schedule);
+            }
+          }    
+        })
+        .catch(function() {
+          // DO something
+        });
+    };
+    var dateParts = $scope.sdate.split('-');
+            var timeParts = $scope.stime.split(':');
+            if(dateParts && timeParts) {
+                dateParts[1] -= 1;
+                $scope.fullDate = new Date(Date.UTC.apply(undefined,dateParts.concat(timeParts))).toISOString(
 
+    $scope.addSchedule = function(schedule) {
+      if (schedule.startTime) {
+        var start = new Date(
+          schedule.startDate.getFullYear(), 
+          schedule.startDate.getMonth(), 
+          schedule.startDate.getDate(),
+          schedule.startTime.getHours(),
+          schedule.startTime.getMinutes()
+        );
+      }
+      if (schedule.endTime) {
+        var end = schedule.endDate + schedule.endTime;
+      }
+    };
 
 }]);
