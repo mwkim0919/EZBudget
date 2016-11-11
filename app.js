@@ -18,8 +18,8 @@ var localStrategy = require('passport-local').Strategy;
 var options = { server: { socketOptions: { keepAlive: 300000, connectTimeoutMS: 30000 } }, 
                 replset: { socketOptions: { keepAlive: 300000, connectTimeoutMS : 30000 } } };       
  
-var mongodbUri = 'mongodb://user:pass@host:port/db';
-var mongodbUri = 'mongodb://heroku_c29r0dph:mw1030512@ds145245.mlab.com:45245/heroku_c29r0dph'
+// var mongodbUri = 'mongodb://user:pass@host:port/db';
+var mongodbUri = 'mongodb://heroku_c29r0dph:5p1b63lml7gfncgon2sk3lqm5n@ds145245.mlab.com:45245/heroku_c29r0dph'
  
 mongoose.connect(mongodbUri, options);
 var conn = mongoose.connection;             
