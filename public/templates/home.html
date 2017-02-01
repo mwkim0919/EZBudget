@@ -1,13 +1,13 @@
 <div id="home" class="container">
 	<div class="row home-header">
 		<div class="col-md-6 col-md-offset-3">
-			<h1 class="title">EZBudget</h1>
+			<img src="stylesheets/images/logo.jpg" alt="logo"/>
 			<h3 class="subtitle">Manage your budget and schedule E-Zily</h3>
 			<div ng-show="message" class="alert alert-success">{{registerMessage}}</div>
 		</div>
 	</div>
 	<div class="row">
-		<div class="col-md-6 col-md-offset-3">
+		<div class="home-content">
 			<div class="panel panel-login">
 				<div class="panel-heading">
 					<a href="#" class="col-xs-6 row active" id="login-form-link">Login</a>
@@ -15,50 +15,49 @@
 				</div>
 				<hr>
 				<div class="panel-body">
-						<div class="col-lg-12">
-							<form id="login-form" style="display: block;" class="form" ng-submit="login()">
-								<div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
-								<div class="form-group">
-									<label for="exampleInputEmail1">Email</label>
-									<input type="email" ng-model="signinForm.email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" required>
-								</div>
-								<div class="form-group">
-									<label for="exampleInputPassword1">Password</label>
-									<input type="password" ng-model="signinForm.password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" ng-disabled="disabled" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
-										</div>
-									</div>
-								</div>
-							</form>
-							<form id="register-form" style="display: none;" class="form" ng-submit="register()">
-								<div ng-show="register_error" class="alert alert-danger">{{errorMessage}}</div>
-								<div class="form-group">
-								    <label>Email</label>
-								    <input type="text" class="form-control" name="username" ng-model="registerForm.username" placeholder="Email" required>
-								</div>
-								<div class="form-group">
-								    <label>Password</label>
-									<input type="password" class="form-control" name="password" ng-model="registerForm.password" placeholder="Password" required>
-								</div>
-								<div class="form-group">
-								    <label>Confirm Password</label>
-								    <input type="password" class="form-control" name="password_confirm" ng-model="registerForm.password_confirm" placeholder="Confirm Password" required>
-								</div>
-								<div class="form-group">
-									<div class="row">
-										<div class="col-sm-6 col-sm-offset-3">
-											<input type="submit" name="register-submit" ng-disabled="disabled" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
-										</div>
-									</div>
-								</div>
-							</form>
+
+					<form id="login-form" style="display: block;" class="form" ng-submit="login()">
+						<div ng-show="error" class="alert alert-danger">{{errorMessage}}</div>
+						<div class="form-group">
+							<label for="exampleInputEmail1">Email</label>
+							<input type="email" ng-model="signinForm.email" class="form-control" id="exampleInputEmail1" placeholder="Enter email" required>
 						</div>
-					</div>
+						<div class="form-group">
+							<label for="exampleInputPassword1">Password</label>
+							<input type="password" ng-model="signinForm.password" class="form-control" id="exampleInputPassword1" placeholder="Password" required>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-3">
+									<input type="submit" ng-disabled="disabled" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Log In">
+								</div>
+							</div>
+						</div>
+					</form>
+					<form id="register-form" style="display: none;" class="form" ng-submit="register()">
+						<div ng-show="register_error" class="alert alert-danger">{{errorMessage}}</div>
+						<div class="form-group">
+							<label>Email</label>
+							<input type="text" class="form-control" name="username" ng-model="registerForm.username" placeholder="Email" required>
+						</div>
+						<div class="form-group">
+							<label>Password</label>
+							<input type="password" class="form-control" name="password" ng-model="registerForm.password" placeholder="Password" required>
+						</div>
+						<div class="form-group">
+							<label>Confirm Password</label>
+							<input type="password" class="form-control" name="password_confirm" ng-model="registerForm.password_confirm" placeholder="Confirm Password" required>
+						</div>
+						<div class="form-group">
+							<div class="row">
+								<div class="col-sm-6 col-sm-offset-3">
+									<input type="submit" name="register-submit" ng-disabled="disabled" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+								</div>
+							</div>
+						</div>
+					</form>
 				</div>
+			</div>
 		</div>
 	</div>
 </div>
