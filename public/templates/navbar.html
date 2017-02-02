@@ -16,58 +16,22 @@
         <li class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-th-list"></span> <span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a class="dashboard-item" href="#/dashboard"><i class="fa fa-dashboard fa-lg"></i> Dashboard</a></li>
+            <li><a class="dashboard-item" href="#/dashboard"><i class="fa fa-dashboard fa-lg"></i>&nbsp; Dashboard</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="dashboard-item" href="#/transactions"><i class="fa fa-money fa-lg"></i> Transaction</a></li>
+            <li><a class="dashboard-item" href="#/transactions"><i class="fa fa-money fa-lg"></i>&nbsp; Transaction</a></li>
             <li role="separator" class="divider"></li>
-            <li><a class="dashboard-item" href="#/schedules"><i class="fa fa-calendar fa-lg"></i> Schedule</a></li>
+            <li><a class="dashboard-item" href="#/schedules"><i class="fa fa-calendar fa-lg"></i>&nbsp; Schedule</a></li>
           </ul>
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
-          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span> Welcome {{current_user}}<span class="caret"></span></a>
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span>&nbsp; Welcome {{current_user}}<span class="caret"></span></a>
           <ul class="dropdown-menu">
-            <li><a class="dashboard-item" ng-click="logout()"><i class="fa fa-sign-out fa-lg"></i> Sign Out</a></li>
+            <li><a class="dashboard-item" href="" ng-click="logout()"><i class="fa fa-sign-out fa-lg"></i>&nbsp; Sign Out</a></li>
           </ul>
         </li>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div>
 </nav>
-
-<!-- <div ng-controller="userController" class="nav-side-menu">
-  <div class="brand">EZBudget</div>
-  <i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
-  
-  <div class="menu-list">
-
-    <ul id="menu-content" class="menu-content collapse out">
-      <li>
-        <a class="dashboard-item" href="">
-          <i class="fa fa-user fa-lg"></i> Welcome {{current_user}}
-        </a>
-      </li>
-      <li>
-        <a class="dashboard-item" href="#/dashboard">
-          <i class="fa fa-dashboard fa-lg"></i> Dashboard
-        </a>
-      </li>
-      <li>
-        <a class="dashboard-item" href="#/transactions">
-          <i class="fa fa-money fa-lg"></i> Transaction
-        </a>
-      </li>
-      <li>
-        <a class="dashboard-item" href="#/schedules">
-          <i class="fa fa-calendar fa-lg"></i> Schedule
-        </a>
-      </li>
-      <li>
-        <a class="dashboard-item" ng-click="logout()">
-          <i class="fa fa-sign-out fa-lg"></i> Sign Out
-        </a>
-      </li>
-    </ul>
-  </div>
-</div> -->

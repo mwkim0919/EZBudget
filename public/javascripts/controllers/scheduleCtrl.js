@@ -51,7 +51,8 @@ angular.module('EZBudget').controller('scheduleController',
     };
 
     $scope.schedules = [];
-  	
+    $scope.upcomingEvents = [];
+    
     $scope.getSchedules = function() {
       scheduleService.getSchedules()
         .then(function(response) {
@@ -68,11 +69,16 @@ angular.module('EZBudget').controller('scheduleController',
               };
               $scope.schedules.push(schedule);
             }
-          }    
+          }
+          $scope.upcomingEvents = getUpcoming($scope.schedules);    
         })
         .catch(function() {
           // DO something
         });
+    };
+
+    $scope.closeUpcoming = function(index) {
+      $scope.upcomingEvents.splice(index, 1);
     };
 
     $scope.addSchedule = function(schedule) {
@@ -115,6 +121,9 @@ angular.module('EZBudget').controller('scheduleController',
             actions: actions
           };
           $scope.schedules.push(schedule);
+
+          $scope.upcomingEvents = getUpcoming($scope.schedules);
+
           $('#schedule-form').modal('toggle');
           $scope.schedule = {};
         })
@@ -166,6 +175,9 @@ angular.module('EZBudget').controller('scheduleController',
           editedSchedule[0].startsAt = start;
           editedSchedule[0].endsAt = end;
           editedSchedule[0].description = $scope.scheduleEdit.description;
+
+          $scope.upcomingEvents = getUpcoming($scope.schedules);
+
           // RESET
           $scope.scheduleEdit = {};
           $('#schedule-edit-form').modal('toggle');
@@ -183,6 +195,8 @@ angular.module('EZBudget').controller('scheduleController',
           $scope.schedules = $scope.schedules.filter(function(obj) {
             return obj.id != id;
           });
+
+          $scope.upcomingEvents = getUpcoming($scope.schedules);
         })
         .catch(function() {
 
@@ -207,4 +221,29 @@ angular.module('EZBudget').controller('scheduleController',
       };
     };
 
+    function getUpcoming(arr) {
+      var result = [];
+      console.log(typeof(arr[0].startsAt), arr[0].startsAt);
+      for (var i = 0; i < arr.length; i++) {
+        if (arr[i].startsAt > new Date()) {
+          var upcoming = {
+            type: getType(arr[i].startsAt - new Date()),
+            title: arr[i].title,
+            start: arr[i].startsAt,
+          }
+          result.push(upcoming);
+        }
+      }
+      return result;
+    }
+
+    function getType(dif) {
+      if (dif < 8.64e+7) {
+        return 'danger';
+      } else if (dif < 2.592e+8) {
+        return 'warning';
+      } else {
+        return 'info';
+      }
+    }
 }]);

@@ -1,85 +1,100 @@
 <div ng-include="'/templates/navbar.html'"></div>
-<div ng-init="getTransactions()" class="dashboard-body">
+<div ng-init="getTransactions()" class="container-fluid">
 	<div class="row">
 		<div class="col-md-6">
-			<canvas id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries" chart-colors="barcolors" chart-options="baroptions" chart-click="baronclick"></canvas>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><strong>Monthly Earning and Expenses</strong></h3>
+				</div>
+				<div class="panel-body">
+					<canvas ng-show="barlabels.length == 0" id="bar" class="chart chart-bar" chart-data="barorigin" chart-labels="barlabels" chart-series="barseries" chart-colors="barcolors" chart-options="baroptions"></canvas>
+		            <canvas ng-show="barlabels.length != 0" id="bar" class="chart chart-bar" chart-data="bardata" chart-labels="barlabels" chart-series="barseries" chart-colors="barcolors" chart-options="baroptions"></canvas>
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title"><strong>Expense Categories</strong></h3>
+				</div>
+				<div class="panel-body">
+					<canvas id="pie" class="chart chart-pie" chart-data="piedata" chart-labels="pielabels" chart-options="pieoptions"></canvas>
+				</div>
+			</div>
 		</div>
 		<div class="col-md-6">
-			<canvas id="pie" class="chart chart-pie" chart-data="piedata" chart-labels="pielabels" chart-options="pieoptions"></canvas> 
-		</div>
-	</div>
-	<div class="panel panel-primary">
-		<div class="panel-heading">
-			<h3 class="panel-title pull-left">Transaction History</h3>
-			<div class="pull-right">
-				<button class="btn btn-default" data-toggle="modal" data-target="#transaction-form">
-					<span class="glyphicon glyphicon-plus"></span>
-				</button>
-			</div>
-			<div class="clearfix"></div>
-		</div>
-		<div class="panel-body">
-			<div class="table-responsive">
-				<table class="table">
-					<thead>
-						<th ng-click="sort('date')" class="col-md-2">
-							Date
-							<span class="glyphicon sort-icon" ng-show="sortKey=='date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-						</th>
-						<th ng-click="sort('category')" class="col-md-2">
-							Category
-							<span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-						</th>
-						<th ng-click="sort('description')" class="col-md-5">
-							Description
-							<span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-						</th>
-						<th ng-click="sort('amount')" class="col-md-2">
-							Amount
-							<span class="glyphicon sort-icon" ng-show="sortKey=='amount'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
-						</th>
-						<th class="col-md-1">Action</th>
-					</thead>
-					<tbody>
-						<tr>
-							<td>
-								<select ng-model="$ctrl.date" class="form-control">
-									<option value=""></option>
-									<option ng-repeat="view in views" value="{{view}}">{{view}}</option>
-								</select>
-							</td>
-							<td>
-								<select ng-model="$ctrl.category" class="form-control">
-									<option value=""></option>
-									<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
-								</select>
-							</td>
-							<td>
-								<input ng-model="$ctrl.description" class="form-control">
-							</td>
-							<td>
-								<input ng-model="$ctrl.amount" class="form-control">
-							</td>
-						</tr>
-						<tr dir-paginate="transaction in transactions | filter: {date: $ctrl.date, category: $ctrl.category, description: $ctrl.description, amount: $ctrl.amount} | orderBy:sortKey:reverse | itemsPerPage:10" id="{{transaction.id}}">
-							<td>{{transaction.date | date : format : 'mediumDate'}}</td>
-							<td>{{transaction.category}}</td>
-							<td>{{transaction.description}}</td>
-							<td>{{transaction.amount | currency}}</td>
-							<td>
-								<button class="btn btn-xs btn-info" data-toggle="modal" data-target="#transaction-edit-form" ng-click="fetchTransaction(transaction.id)">
-									<span class="glyphicon glyphicon-pencil"></span>
-								</button>
-								<button class="btn btn-xs btn-danger" ng-click="removeTransaction(transaction.id)">
-									<span class="glyphicon glyphicon-remove"></span>
-								</button>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-				<!-- <p>Balance: {{balance}}</p> -->
-				<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
-			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					<h3 class="panel-title pull-left">Transaction History</h3>
+					<div class="pull-right">
+						<button class="btn btn-default" data-toggle="modal" data-target="#transaction-form">
+							<span class="glyphicon glyphicon-plus"></span>
+						</button>
+					</div>
+					<div class="clearfix"></div>
+				</div>
+				<div class="panel-body">
+					<div class="table-responsive">
+						<table class="table">
+							<thead>
+								<th ng-click="sort('date')" class="col-md-2">
+									Date
+									<span class="glyphicon sort-icon" ng-show="sortKey=='date'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+								</th>
+								<th ng-click="sort('category')" class="col-md-2">
+									Category
+									<span class="glyphicon sort-icon" ng-show="sortKey=='category'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+								</th>
+								<th ng-click="sort('description')" class="col-md-5">
+									Description
+									<span class="glyphicon sort-icon" ng-show="sortKey=='description'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+								</th>
+								<th ng-click="sort('amount')" class="col-md-2">
+									Amount
+									<span class="glyphicon sort-icon" ng-show="sortKey=='amount'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+								</th>
+								<th class="col-md-1">Action</th>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<select ng-model="$ctrl.date" class="form-control">
+											<option value=""></option>
+											<option ng-repeat="view in views" value="{{view}}">{{view}}</option>
+										</select>
+									</td>
+									<td>
+										<select ng-model="$ctrl.category" class="form-control">
+											<option value=""></option>
+											<option ng-repeat="category in categories" value="{{category}}">{{category}}</option>
+										</select>
+									</td>
+									<td>
+										<input ng-model="$ctrl.description" class="form-control">
+									</td>
+									<td>
+										<input ng-model="$ctrl.amount" class="form-control">
+									</td>
+								</tr>
+								<tr dir-paginate="transaction in transactions | filter: {date: $ctrl.date, category: $ctrl.category, description: $ctrl.description, amount: $ctrl.amount} | orderBy:sortKey:reverse | itemsPerPage:10" id="{{transaction.id}}">
+									<td>{{transaction.date | date : format : 'mediumDate'}}</td>
+									<td>{{transaction.category}}</td>
+									<td>{{transaction.description}}</td>
+									<td>{{transaction.amount | currency}}</td>
+									<td>
+										<button class="btn btn-xs btn-info" data-toggle="modal" data-target="#transaction-edit-form" ng-click="fetchTransaction(transaction.id)">
+											<span class="glyphicon glyphicon-pencil"></span>
+										</button>
+										<button class="btn btn-xs btn-danger" ng-click="removeTransaction(transaction.id)">
+											<span class="glyphicon glyphicon-remove"></span>
+										</button>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<!-- <p>Balance: {{balance}}</p> -->
+						<dir-pagination-controls max-size="5" direction-links="true" boundary-links="true"></dir-pagination-controls>
+					</div>
+				</div>
+			</div> 
 		</div>
 	</div>
 </div>

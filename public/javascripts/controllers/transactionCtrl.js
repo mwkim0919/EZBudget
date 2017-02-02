@@ -9,6 +9,7 @@ angular.module('EZBudget').controller('transactionController',
     $scope.barlabels = [];
     $scope.barseries = ["Earning", "Expense"];
     $scope.bardata = [[], []];
+    $scope.barorigin = [[0], [0]];
     $scope.barcolors = ['#ff6384', '#45b7cd'];
     $scope.baroptions = {
       legend: {
@@ -16,30 +17,29 @@ angular.module('EZBudget').controller('transactionController',
         labels: ["Earning", "Expense"],
       },
       scaleStartValue: 0,
-      title: {
-        text: "Monthly Earning and Expenses",
-        fontSize: 17,        
-        display: true,
-      },
     };
-    $scope.baronclick = function(point, evt) {
-      console.log(point, evt);
-    }
 
     $scope.pielabels = ['Others', 'Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'];
     $scope.piedata = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    $scope.piecolors = ['#a6cee3', '#1f78b4', '#b2df8a', '#33a02c', '#fb9a99', '#e31a1c', '#fdbf6f', '#ff7f00', '#cab2d6', '#6a3d9a'];
     $scope.pieoptions = {
       legend: {
         display: true,
-        position: 'right',
+        position: 'left',
         labels: ['Others', 'Clothing', 'Education', 'Entertainment', 'Food', 'Housing', 'Medical', 'Personal', 'Transportation', 'Utilities'],
       },
-      title: {
-        text: "Expense Categories",
-        fontSize: 17,        
-        display: true,
-      }
     }
+
+    $scope.cur_spending = 0;
+    $scope.cur_earning = 0;
+    $scope.spend_earn_ratio = 0;
+    $scope.max = daysInMonth(new Date().getMonth(), new Date().getFullYear());
+    $scope.day = new Date().getDate();
+    $scope.cycle = $scope.day / $scope.max * 100;
+    $scope.monthStatus = getStatus($scope.cycle);
+
+    $scope.classes = ['fa-circle-o', 'fa-shopping-cart', 'fa-book', 'fa-futbol-o', 'fa-cutlery', 'fa-home', 'fa-medkit', 'fa-user', 'fa-car', 'fa-mobile'];
+    $scope.topSpending = [];
 
     $scope.sort = function(key) {
       $scope.sortKey = key;
@@ -101,6 +101,12 @@ angular.module('EZBudget').controller('transactionController',
             $scope.barlabels.reverse();
             $scope.bardata[0].reverse();
             $scope.bardata[1].reverse();
+
+            getMonthlyProgress();
+
+            getTopSpendings();
+
+            editPieData($scope.piedata);
           }
         })
         .catch(function() {
@@ -109,7 +115,8 @@ angular.module('EZBudget').controller('transactionController',
     };
 
     $scope.addTransaction = function() {
-      transactionService.addTransaction($scope.transaction.date, $scope.transaction.category, $scope.transaction.description, $scope.transaction.type, $scope.transaction.amount)
+      transactionService.addTransaction($scope.transaction.date, $scope.transaction.category, 
+        $scope.transaction.description, $scope.transaction.type, $scope.transaction.amount)
         .then(function(response) {
           var transaction = {
             id: response.data.obj._id,
@@ -177,7 +184,8 @@ angular.module('EZBudget').controller('transactionController',
           editedTransaction[0].category = $scope.transactionEdit.category;
           editedTransaction[0].description = $scope.transactionEdit.description;
           editedTransaction[0].type = $scope.transactionEdit.type;
-          editedTransaction[0].amount = ($scope.transactionEdit.type == 'Expense') ? -$scope.transactionEdit.amount : $scope.transactionEdit.amount;
+          editedTransaction[0].amount = ($scope.transactionEdit.type == 'Expense') ? 
+            -$scope.transactionEdit.amount : $scope.transactionEdit.amount;
           // UPDATE BAR CHART
           addBarData(editedTransaction[0]);
           // UPDATE PIE CHART
@@ -206,7 +214,7 @@ angular.module('EZBudget').controller('transactionController',
       };
     }
 
-    // ===== HELPER FUNCTIONS ===== //
+    // ========================== HELPER FUNCTIONS ============================== //
     function removeBarData(obj) {
       // REMOVE OLD DATA FROM BAR CHART
       var date = obj.date.substring(0,7);
@@ -277,4 +285,61 @@ angular.module('EZBudget').controller('transactionController',
       }
     }
 
+    function editPieData(obj) {
+      var total = obj.reduce(function(total, num) {
+        return total + num;
+      });
+      for (var i = 0; i < obj.length; i++) {
+        obj[i] = Math.round(obj[i] / total * 100);
+      }
+    }
+
+    function getMonthlyProgress() {
+      var cur_month = $scope.barlabels[$scope.barlabels.length-1];
+      if (cur_month == JSON.stringify(new Date()).substring(1,8)) {
+        $scope.cur_earning = $scope.bardata[0][$scope.barlabels.length-1];
+        $scope.cur_spending = $scope.bardata[1][$scope.barlabels.length-1];
+        if ($scope.cur_earning != 0) {
+          $scope.spend_earn_ratio = $scope.cur_spending / $scope.cur_earning * 100;
+        }
+      }
+      $scope.budgetStatus = getStatus($scope.spend_earn_ratio);
+    }
+
+    function getTopSpendings() {
+      var sorted = $scope.piedata.slice().sort(function(a,b){return b-a})
+      $scope.pieranks = $scope.piedata.slice().map(function(v){ return sorted.indexOf(v)+1 });
+      for (var i = 0; i < $scope.pieranks.length; i++) {
+        var category = {
+          name: $scope.pielabels[i],
+          class: $scope.classes[i],
+          amount: $scope.piedata[i],
+          rank: $scope.pieranks[i],
+        }
+        $scope.topSpending.push(category);
+      }
+    }
+
+    function daysInMonth(m, y) { // m is 0 indexed: 0-11
+      switch (m) {
+        case 1 :
+        return (y % 4 == 0 && y % 100) || y % 400 == 0 ? 29 : 28;
+        case 8 : case 3 : case 5 : case 10 :
+        return 30;
+        default :
+        return 31
+      }
+    }
+
+    function getStatus(p) {
+      if (p < 25) {
+        return 'success';
+      } else if (p < 50) {
+        return 'info';
+      } else if (p < 75) {
+        return 'warning';
+      } else {
+        return 'danger';
+      }
+    }
 }]);
