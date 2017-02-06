@@ -88,28 +88,29 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">Start Date</span>
-								<input ng-model="schedule.startDate" type="date" class="form-control" required>
+								<h4>Start Date</h4>
+								<div style="display:inline-block;">
+									<div uib-datepicker ng-model="schedule.startDate" class="well well-sm" datepicker-options="datepickeroptions"></div>
+								</div>
+								<div class="input-group">
+									<div uib-timepicker ng-model="schedule.startTime" ng-change="changed()" show-meridian="true"></div>
+								</div>
+								<!-- <span class="input-group-addon">Start Date</span>
+								<input ng-model="schedule.startDate" type="date" class="form-control" required> -->
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<div class="input-group">
-								<span class="input-group-addon">Start Time</span>
-								<input ng-model="schedule.startTime" type="time" class="form-control">
-							</div>
-						</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-sm-6">
-							<div class="input-group">
-								<span class="input-group-addon">End Date</span>
-								<input ng-model="schedule.endDate" ng-change='checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)' ng-disabled="!schedule.startDate" type="date" class="form-control" required>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6">
-							<div class="input-group">
-								<span class="input-group-addon">End Time</span>
-								<input ng-model="schedule.endTime" ng-change='checkErr(schedule.startDate, schedule.endDate, schedule.startTime, schedule.endTime)' ng-disabled="!schedule.startDate && !schedule.startTime" type="time" class="form-control">
+								<h4>End Date</h4>
+								<div style="display:inline-block;">
+									<div uib-datepicker ng-model="schedule.endDate" class="well well-sm" datepicker-options="datepickeroptions"></div>
+								</div>
+								<div class="input-group">
+									<div uib-timepicker ng-model="schedule.endTime" ng-change="changed()" show-meridian="true"></div>
+								</div>
+								<!-- <div uib-timepicker ng-model="schedule.startTime" ng-change="changed()" show-meridian="true"></div> -->
+								<!-- <span class="input-group-addon">Start Time</span>
+								<input ng-model="schedule.startTime" type="time" class="form-control"> -->
 							</div>
 						</div>
 					</div>

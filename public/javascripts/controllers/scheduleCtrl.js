@@ -27,6 +27,10 @@ angular.module('EZBudget').controller('scheduleController',
     $scope.colors['purple'] = calendarConfig.colorTypes.special;
     $scope.colors['green'] = calendarConfig.colorTypes.success;
     
+    $scope.datepickeroptions = {
+      showWeeks: false,
+    };
+
     $scope.eventClicked = function(event) {
       fetchSchedule(event.id);
       $('#schedule-edit-form').modal('toggle');

@@ -200,6 +200,11 @@ canvas {
 	margin-bottom: 15px;
 }
 
+.datepick {
+	margin-left: auto;
+	margin-right: auto;
+}
+
 /*SCHEDULE*/
 #scheduleSelect option {
 	color: white;
