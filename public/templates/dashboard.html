@@ -38,7 +38,7 @@
                 </div>
                 <div>
                     <small><em>Monthly Budget Left</em></small>
-                    <uib-progressbar value="spend_earn_ratio" type="{{budgetStatus}}"><b>{{spend_earn_ratio}}%</b></uib-progressbar>
+                    <uib-progressbar value="spend_earn_ratio" type="{{budgetStatus}}"><b>{{spend_earn_ratio | number:1}}%</b></uib-progressbar>
                 </div>
                 <div>
                     <small><em>Month Cycle Left ({{day}} / {{max}} days)</em></small>

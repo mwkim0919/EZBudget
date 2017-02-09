@@ -316,10 +316,10 @@ angular.module('EZBudget').controller('transactionController',
         $scope.cur_earning = $scope.bardata[0][$scope.barlabels.length-1];
         $scope.cur_spending = $scope.bardata[1][$scope.barlabels.length-1];
         if ($scope.cur_earning != 0) {
-          $scope.spend_earn_ratio = $scope.cur_spending / $scope.cur_earning * 100;
+          $scope.spend_earn_ratio = 100 - ($scope.cur_spending / $scope.cur_earning * 100);
         }
       }
-      $scope.budgetStatus = getStatus($scope.spend_earn_ratio);
+      $scope.budgetStatus = getStatus(100-$scope.spend_earn_ratio);
     }
 
     function getTopSpendings() {
